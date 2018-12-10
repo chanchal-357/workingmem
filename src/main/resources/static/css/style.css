@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.form {
+	background-color: #efefef;
+	width: 400px;
+	height: auto;
+	border-radius: 7px;
+	padding: 20px;
+}
