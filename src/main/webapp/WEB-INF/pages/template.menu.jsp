@@ -5,7 +5,7 @@
           <div class="sidebar-header d-flex align-items-center">
             <div class="avatar"><img src="${pageContext.request.contextPath}/resources/img/avatar-3.jpg" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-              <h1 class="h4">ChaWeewan</h1>
+              <h1 class="h4">Hello</h1>
               <p>ADMIN</p>
             </div>
           </div>

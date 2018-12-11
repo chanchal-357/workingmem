@@ -83,8 +83,8 @@
 			            	var time = 1000;
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.name_th + " " +v.name_en);
-			                		var url = v.audio_title;// "resources/horse.ogg";//
+			                		$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
+			                		var url = v.animal.audio_title;// "resources/horse.ogg";//
 			                		//$('#audio_anm').attr('src', url);
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
@@ -126,8 +126,8 @@
 		            		$.each(result, function(k, v) {
 		            			progress = parseInt(((k + 1)/len)*100);
 			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.name_th + " " +v.name_en);
-			                		var url = v.audio_title;// "resources/horse.ogg";//
+			                		$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
+			                		var url = v.animal.audio_title;// "resources/horse.ogg";//
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
 			                		audio.addEventListener("canplaythrough", function () {
@@ -143,7 +143,7 @@
 			                		$('#start').prop('disabled', false);
 			                	} */
 			                	time += 2000;
-			                	apl_activity = v.activity_id;
+			                	apl_activity = v.activity.id;
 			                	apl_level = v.activity_level;
 			                	$("#act_level").html(apl_level);
 			                });

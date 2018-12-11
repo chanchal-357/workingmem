@@ -2,31 +2,30 @@ package com.memory.training.wrkmem.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "app_activity")
-public class AppActivity {
+@Table(name = "application")
+public class Application {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "activity_id")
-	private Integer activity_id;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "activity_id")
+	private Activity activity;
 
-	@Column(name = "name_en")
-	private String name_en;
-
-	@Column(name = "name_th")
-	private String name_th;
-
-	@Column(name = "audio_title")
-	private String audio_title;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 
 	@Column(name = "activity_level")
 	private Integer activity_level;
@@ -45,36 +44,20 @@ public class AppActivity {
 		this.id = id;
 	}
 
-	public Integer getActivity_id() {
-		return activity_id;
+	public Activity getActivity() {
+		return activity;
 	}
 
-	public void setActivity_id(Integer activity_id) {
-		this.activity_id = activity_id;
+	public void setActivity_id(Activity activity) {
+		this.activity = activity;
 	}
-
-	public String getName_en() {
-		return name_en;
+	
+	public Animal getAnimal() {
+		return animal;
 	}
-
-	public void setName_en(String name_en) {
-		this.name_en = name_en;
-	}
-
-	public String getName_th() {
-		return name_th;
-	}
-
-	public void setName_th(String name_th) {
-		this.name_th = name_th;
-	}
-
-	public String getAudio_title() {
-		return audio_title;
-	}
-
-	public void setAudio_title(String audio_title) {
-		this.audio_title = audio_title;
+	
+	public void setAnimal(Animal animal) {
+		this.animal = animal;
 	}
 
 	public Integer getActivity_level() {
