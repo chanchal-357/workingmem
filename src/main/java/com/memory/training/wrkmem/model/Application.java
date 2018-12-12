@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "application")
@@ -29,9 +30,12 @@ public class Application {
 
 	@Column(name = "activity_level")
 	private Integer activity_level;
+	
+	@Column(name = "level_round")
+	private Integer level_round;
 
-	@Column(name = "level_order")
-	private Integer level_order;
+	@Column(name = "round_order")
+	private Integer round_order;
 
 	@Column(name = "is_example")
 	private Boolean is_example;
@@ -68,12 +72,20 @@ public class Application {
 		this.activity_level = activity_level;
 	}
 
-	public Integer getLevel_order() {
-		return level_order;
+	public Integer getLevel_round() {
+		return level_round;
 	}
 
-	public void setLevel_order(Integer level_order) {
-		this.level_order = level_order;
+	public void setLevel_round(Integer level_order) {
+		this.level_round = level_order;
+	}
+	
+	public Integer getRound_order() {
+		return round_order;
+	}
+	
+	public void setRound_order(Integer round_order) {
+		this.round_order = round_order;
 	}
 
 	public Boolean getIs_example() {
@@ -84,4 +96,15 @@ public class Application {
 		this.is_example = is_example;
 	}
 
+	@Transient
+	public Long levelCompletion;
+	
+	public Long getLevelCompletion() {
+		return levelCompletion;
+	}
+
+	public void setLevelCompletion(Long levelCompletion) {
+		this.levelCompletion = levelCompletion;
+	}
+	
 }

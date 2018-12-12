@@ -1,29 +1,3 @@
-INSERT INTO `animal` (`id`, `name_en`, `name_th`, `audio_title`, `status`) VALUES
-(1, 'Ant', 'มด', 'resources/Ant.m4a', 1),
-(2, 'Bear', 'หมี ', 'resources/Bear.m4a', 1),
-(3, 'Bee', 'ผึ้ง', 'resources/Bee.m4a', 1),
-(4, 'Bird', 'นก', 'resources/Bird.m4a', 1),
-(5, 'Buffalo', 'ควาย', 'resources/Buffalo.m4a', 1),
-(6, 'Cat', 'แมว ', 'resources/Cat.m4a', 1),
-(7, 'Chicken', 'ไก่', 'resources/Chicken.m4a', 1),
-(8, 'Cow', 'วัว', 'resources/Cow.m4a', 1),
-(9, 'Crab', 'ปู', 'resources/Crab.m4a', 1),
-(10, 'Dear', 'กวาง', 'resources/Dear.m4a', 1),
-(11, 'Dog', 'หมา', 'resources/Dog.m4a', 1),
-(12, 'Elephant', 'ช้าง', 'resources/Elephant.m4a', 1),
-(13, 'Fish', 'ปลา', 'resources/Fish.m4a', 1),
-(14, 'Frog', 'กบ', 'resources/Frog.m4a', 1),
-(15, 'Lion', 'สิงโต', 'resources/Lion.m4a', 1),
-(16, 'Monkey', 'ลิง', 'resources/Monkey.m4a', 1),
-(17, 'Pig', 'หมู', 'resources/Pig.m4a', 1),
-(18, 'Rat', 'หนู', 'resources/Rat.m4a', 1),
-(19, 'Shrimp', 'กุ้ง', 'resources/Shrimp.m4a', 1),
-(20, 'Tiger', 'เสือ ', 'resources/Tiger.m4a', 1),
-(21, 'Turtle', 'เต่า ', 'resources/Turtle.m4a', 1);
-
-Insert into activity (ID, ACTIVITY_NAME_EN, ACTIVITY_NAME_TH, DESCRIPTION, STATUS) VALUES (1, 'Animal Name', 'ชื่อสัตว์', 'Memorize Animal Name', 1), 
-(2, 'Object Name', 'ชื่อออบเจ็กต์', 'Memorize Object Name', 1),  (3, 'Image Poisition', 'ตำแหน่งรูปภาพ', 'Memorize Image Position', 1);
-
 INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
 (1,	1,	13,	1,	1,	1,	0),	
 (2,	1,	3,	1,	1,	2,	0),	

@@ -28,8 +28,8 @@
 				</audio> -->
 				<iframe src="" allow="autoplay" id="audio_anm" style="display:none"></iframe>
 				
-                <input type="hidden" id="app_activity" value="1" />
-                <input type="hidden" id="app_level" value="0" />
+                <input type="hidden" id="app_level" value="1" />
+                <input type="hidden" id="lvl_round" value="0" />
                 
                 <!-- Horizontal Form-->
                 <div class="col-lg-10">
@@ -46,7 +46,7 @@
                       <!-- <p>Memorize Animal Name</p> -->
                       <form class="form-horizontal">
                         <div class="form-group row">
-                          <label class="col-sm-3 form-control-label">Level <span id="act_level">  </span></label>
+                          <label class="col-sm-3 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
                           <div class="col-sm-9">
                             <!-- <input name="animal_name" id="animal_name" disabled="disabled"  placeholder="Animal Name" class="form-control form-control-success"><small class="form-text">Memorize Animals Name</small> -->
 							<h1 class="h1 text-large" id="animal_name_h" style="font-size: 7rem;"></h1>                          
@@ -69,9 +69,9 @@
          <jsp:include page="template.footer.jsp" />
          <script type="text/javascript">
 			$(document ).ready(function() {
-			    var level = 0;
-			    $("#demo").click(function(e) {
-			    	loadDemo() 
+			   
+				$("#demo").click(function(e) {
+			    	loadDemo();
 			    });
 			    
 			    function loadDemo() {
@@ -84,7 +84,7 @@
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
 			                		$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
-			                		var url = v.animal.audio_title;// "resources/horse.ogg";//
+			                		var url = v.animal.audio_title;
 			                		//$('#audio_anm').attr('src', url);
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
@@ -106,8 +106,10 @@
 			            }
 			        });
 			    }
+			    
 			    var apl_activity = $("#app_activity").val();
 			    var apl_level = $("#app_level").val();
+			    var lvl_round = $("#lvl_round").val();
 			    
 			    $("#start").click(function(e) {
 			    	$("#progressbar").width("0%");
@@ -118,16 +120,16 @@
 			        $.ajax({
 			            type: "GET",
 			            url: "/start_activity_1",
-			            data: {app_activity : apl_activity, app_level : apl_level },
+			            data: {app_level : apl_level, level_round : lvl_round },
 			            success: function(result) {
 			            	var len = result.length;
 			            	var time = 1000;
 			            	var progress = parseInt(0);
 		            		$.each(result, function(k, v) {
-		            			progress = parseInt(((k + 1)/len)*100);
+		            			progress = parseInt(v.levelCompletion);
 			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
-			                		var url = v.animal.audio_title;// "resources/horse.ogg";//
+			                		$("#animal_name_h").html(v.animal.name_th);
+			                		var url = v.animal.audio_title;
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
 			                		audio.addEventListener("canplaythrough", function () {
@@ -139,13 +141,11 @@
 		                		        2000);
 		                		    }, false);
 	                			}, time);
-			                	/* if(k == (len -1)) {
-			                		$('#start').prop('disabled', false);
-			                	} */
 			                	time += 2000;
-			                	apl_activity = v.activity.id;
 			                	apl_level = v.activity_level;
+			                	lvl_round = v.level_round;
 			                	$("#act_level").html(apl_level);
+			                	$("#level_round").html(lvl_round);
 			                });
 			            },
 			            error: function(result) {

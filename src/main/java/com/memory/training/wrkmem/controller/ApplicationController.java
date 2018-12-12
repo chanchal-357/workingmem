@@ -46,7 +46,10 @@ public class ApplicationController {
 	@ResponseBody
 	@RequestMapping(value = "/demo_activity_1", method = RequestMethod.GET) 
 	public List<Application> loadActivity(Model m) {
-		List<Application> list = this.populateAppActivities(false).stream().filter(e -> e.getIs_example()).collect(Collectors.toList());
+		List<Application> list = this.populateAppActivities(false).stream()
+									.filter(e -> e.getActivity().getId().equals(1L))
+									.filter(e -> e.getIs_example())
+									.collect(Collectors.toList());
 		System.out.println(gson.toJson(list));
 		return list;
 	}
@@ -55,27 +58,50 @@ public class ApplicationController {
 	@RequestMapping(value = "/start_activity_1", method = RequestMethod.GET) 
 	public List<Application> loadActivities(Model m, HttpServletRequest request) {
 		
-		String app_activity = request.getParameter("app_activity");
 		String app_level = request.getParameter("app_level");
-		System.out.println("Activity: " + app_activity + ", Level: " + app_level);
+		String level_round = request.getParameter("level_round");
+		System.out.println("Level: " + app_level + ", Round: " + level_round);
 		
-		Long activityId = Long.parseLong(app_activity);
-		Integer activityLevel = Integer.parseInt(app_level) + 1;
+		Long activityId = 1L; // For Activity One Only
+		Integer activityLevel = Integer.parseInt(app_level);
+		Integer levelRound = Integer.parseInt(level_round) + 1;
 		
 		List<Application> list = this.populateAppActivities(false);
 		List<Application> filteredList = list.stream()
 //									.filter(e -> e.getActivity().equals(applicationService.findAnimalById(activityId)))
 									.filter(e -> e.getActivity().getId().equals(activityId))
 									.filter(e -> e.getActivity_level().equals(activityLevel))
+									.filter(e -> e.getLevel_round().equals(levelRound))
 									.filter(e -> !e.getIs_example())
 									.collect(Collectors.toList());
 		// Move to Next activity with level 1
-		if(filteredList.size() == 0)
+		if(filteredList.size() == 0) {
 			filteredList = list.stream()
-			.filter(e -> e.getActivity().getId().equals(activityId+1))
-			.filter(e -> e.getActivity_level().equals(1))
+			.filter(e -> e.getActivity().getId().equals(activityId))
+			.filter(e -> e.getActivity_level().equals(activityLevel + 1)) // Move to Next Level
+			.filter(e -> e.getLevel_round().equals(1))
 			.filter(e -> !e.getIs_example())
 			.collect(Collectors.toList());
+		}
+		//System.out.println(gson.toJson(filteredList));
+		
+		// calculate levelCompletion in %
+		Integer level = filteredList.size() > 0 ? filteredList.get(0).getActivity_level() : 0;
+		Long totalCnt = list.stream()
+				.filter(e -> e.getActivity().getId().equals(activityId))
+				.filter(e -> e.getActivity_level().equals(level)).count();
+		
+		Integer maxLevelRound = filteredList.stream().mapToInt(e -> e.getLevel_round())
+			      .max().orElse(0);
+		
+		Long roundCompleted = list.stream()
+				.filter(e -> e.getActivity().getId().equals(activityId))
+				.filter(e -> e.getActivity_level().equals(level))
+				.filter(e -> e.getLevel_round() <= maxLevelRound).count();
+		
+		Long perct = (roundCompleted * 100)/totalCnt;
+		System.out.println("Level Completion is: " + perct + ", for Level: " + level + ", round: " + levelRound);
+		filteredList.stream().forEach(e->e.setLevelCompletion(perct));
 		System.out.println(gson.toJson(filteredList));
 		return filteredList;
 	}
