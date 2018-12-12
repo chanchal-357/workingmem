@@ -2,7 +2,6 @@
 		<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 		<jsp:include page="template.head.jsp" />
 	
-		<input type="hidden" id="activityLst" value="${activities}" />
         <div class="content-inner">
           <!-- Page Header-->
           <header class="page-header">
@@ -69,7 +68,7 @@
          <jsp:include page="template.footer.jsp" />
          <script type="text/javascript">
 			$(document).ready(function() {
-				
+
 				setTimeout(function(){
 					loadDemo();
 				}, 1000);
@@ -82,10 +81,11 @@
 			            url: "/demo_activity_1",
 			            data: { },
 			            success: function(result) {
-			            	var time = 1000;
+			            	var time = 600;
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
+			                		//$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
+			                		$("#animal_name_h").html(v.animal.name_th);
 			                		var url = v.animal.audio_title;
 			                		//$('#audio_anm').attr('src', url);
 			                		var audio = document.createElement("audio");
@@ -95,11 +95,11 @@
 			                		        setTimeout(function(){
 			                		            audio.pause();
 			                		        },
-			                		        2000);
+			                		        1200);
 			                		        
 			                		    }, false);
 	                			}, time);
-			                	time += 2000;
+			                	time += 1200;
 			                });
 			               // $("#animal_name").val("Finish");
 			            },
@@ -139,12 +139,13 @@
 		                		        audio.play();
 		                		        setTimeout(function(){
 		                		        	$("#progressbar").width(progress+"%");
+		                		        	//$("#animal_name_h").html('');
 		                		        	audio.pause();
 		                		        },
-		                		        2000);
+		                		        1200);
 		                		    }, false);
 	                			}, time);
-			                	time += 2000;
+			                	time += 1200;
 			                	
 			                	apl_level = v.activity_level;
 			                	lvl_round = v.level_round;
@@ -158,7 +159,24 @@
 			        });
 			    });
 			    
-			    
+			    /*$("#level").on('click', refreshLevel);
+			    function refreshLevel(lvl) {
+					$.ajax({
+			            type: "GET",
+			            url: "/refresh_activity_level?lvl="+lvl,
+			            data: { },
+			            success: function(result) {
+			            	if(result != null) {
+			            		apl_level = result;
+			            		lvl_round = 0;
+			            	}
+			            },
+			            error: function(result) {
+			                alert('error');
+			            }
+			        });
+				}*/
 			});
+			
 			
 		</script>

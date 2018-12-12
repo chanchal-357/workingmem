@@ -37,9 +37,7 @@ public class ApplicationController {
 		String refresh = request.getParameter("q");
 		Boolean isRefresh = refresh != null && "1".equals(refresh) ? true : false;
 		lst = this.populateAppActivities(isRefresh);
-		String json = gson.toJson(lst);
-		System.out.println(json);
-		m.addAttribute("activities", json);
+		System.out.println(gson.toJson(lst));
 		return "activity_1";
 	}
 	
@@ -121,7 +119,8 @@ public class ApplicationController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/refresh_activity_level", method = RequestMethod.GET) 
-	public String refreshActivityLevel(Model m) {
-		return "";
+	public String refreshActivityLevel(Model m, HttpServletRequest request) {
+		String level = request.getParameter("lvl");
+		return level;
 	}
 }
