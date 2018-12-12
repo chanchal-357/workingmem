@@ -97,7 +97,7 @@ public class Application {
 	}
 
 	@Transient
-	public Long levelCompletion;
+	private Long levelCompletion;
 	
 	public Long getLevelCompletion() {
 		return levelCompletion;

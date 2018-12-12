@@ -68,11 +68,13 @@
           </section>
          <jsp:include page="template.footer.jsp" />
          <script type="text/javascript">
-			$(document ).ready(function() {
-			   
-				$("#demo").click(function(e) {
-			    	loadDemo();
-			    });
+			$(document).ready(function() {
+				
+				setTimeout(function(){
+					loadDemo();
+				}, 1000);
+				
+				$("#demo").on('click', loadDemo);
 			    
 			    function loadDemo() {
 			        $.ajax({
@@ -107,6 +109,7 @@
 			        });
 			    }
 			    
+			    
 			    var apl_activity = $("#app_activity").val();
 			    var apl_level = $("#app_level").val();
 			    var lvl_round = $("#lvl_round").val();
@@ -119,10 +122,10 @@
 			        
 			        $.ajax({
 			            type: "GET",
+			            cache: false,
 			            url: "/start_activity_1",
 			            data: {app_level : apl_level, level_round : lvl_round },
 			            success: function(result) {
-			            	var len = result.length;
 			            	var time = 1000;
 			            	var progress = parseInt(0);
 		            		$.each(result, function(k, v) {
@@ -142,6 +145,7 @@
 		                		    }, false);
 	                			}, time);
 			                	time += 2000;
+			                	
 			                	apl_level = v.activity_level;
 			                	lvl_round = v.level_round;
 			                	$("#act_level").html(apl_level);

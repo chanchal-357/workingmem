@@ -1,3 +1,8 @@
+-- Example Script
+
+INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
+(167, 1,	13,	1,	1,	1,	1),	(168, 1,	3,	1,	1,	2,	1);
+
 INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
 (1,	1,	13,	1,	1,	1,	0),	
 (2,	1,	3,	1,	1,	2,	0),	
