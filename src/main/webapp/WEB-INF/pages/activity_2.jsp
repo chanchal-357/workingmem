@@ -6,14 +6,14 @@
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Forms</h2>
+              <h2 class="no-margin-bottom">Working Memory</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="index">Home</a></li>
-              <li class="breadcrumb-item active">Activity 1</li>
+              <li class="breadcrumb-item active">Activity 2</li>
             </ul>
           </div>
           <!-- Forms Section-->
@@ -21,10 +21,6 @@
             <div class="container-fluid">
               <div class="row">
                         
-	            <!-- <audio controls autoplay hidden="true">
-				  <source id="audio_src" src="resources/horse.ogg" type="audio/ogg"> type="audio/mpeg 
-				  Your browser does not support the audio element.
-				</audio> -->
 				<iframe src="" allow="autoplay" id="audio_anm" style="display:none"></iframe>
 				
                 <input type="hidden" id="app_level" value="1" />
@@ -34,7 +30,7 @@
                 <div class="col-lg-10">
                   <div class="card">
                     <div class="card-header d-flex align-items-center">
-                      <h3 class="h4">Animal Name</h3>
+                      <h3 class="h4">Object Name</h3>
                     </div>
                     
                     <div class="progress">
@@ -47,7 +43,6 @@
                         <div class="form-group row">
                           <label class="col-sm-3 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
                           <div class="col-sm-9">
-                            <!-- <input name="animal_name" id="animal_name" disabled="disabled"  placeholder="Animal Name" class="form-control form-control-success"><small class="form-text">Memorize Animals Name</small> -->
 							<h1 class="h1 text-large" id="animal_name_h" style="font-size: 7rem;"></h1>                          
                           </div>
                         </div>
@@ -66,7 +61,79 @@
             </div>
           </section>
          <jsp:include page="template.footer.jsp" />
-         <script type="text/javascript">
+         
+        <script type="text/javascript">
+			$(document).ready(function() {  
+				
+				var apl_level = $("#app_level").val();
+				var lvl_round = $("#lvl_round").val();
+				
+				$("#start").click(function(e) {
+					$('#start').prop('disabled', true);
+					loadActivity();
+				});
+				
+				function loadActivity() {
+					$.ajax({
+						type: "GET",
+						cache: false,
+						url: "/start_activity_1",
+						data: {app_level : apl_level, level_round : lvl_round },
+						success: function(result) {
+							syncAudioFunction(result).then(function(rslt){
+								var arr = rslt.split("|");
+								apl_level = arr[0];
+								lvl_round = arr[1];
+								
+								$("#act_level").html(apl_level);
+								$("#level_round").html(lvl_round);
+								
+								/* setTimeout(function(){
+									$("#animal_name_h").html("");
+									$('#start').prop('disabled', false);
+								}, 5000); */
+								
+							},
+							function(err){
+							  console.log('This is error message.');
+							});
+						},
+						error: function(result) {
+							alert('error');
+						}
+					});
+				}
+			});
+			
+			function syncAudioFunction(result) {
+				var dfrd1= $.Deferred();
+				var time = 1000;
+				var progress = 0;
+				$.each(result, function(k, v) {
+					progress = v.levelCompletion;
+					setTimeout(function(){
+						$("#animal_name_h").html(/* v.animal.name_en + " - " +   */v.animal.name_th);
+						var url = v.animal.audio_title;
+						var audio = document.createElement("audio");
+						audio.src = url;
+						audio.addEventListener("canplaythrough", function () {
+							audio.play();
+							setTimeout(function(){
+								$("#progressbar").width(progress+"%");
+								audio.pause();
+							},
+							1200);
+						}, false);
+						dfrd1.resolve(v.activity_level+"|"+v.level_round);
+					}, time);
+					time += 1200;
+					
+				});
+				return dfrd1.promise();
+			}
+			
+	</script>
+        <!--  <script type="text/javascript">
 			$(document).ready(function() {
 
 				setTimeout(function(){
@@ -78,13 +145,12 @@
 			    function loadDemo() {
 			        $.ajax({
 			            type: "GET",
-			            url: "/demo_activity_1",
+			            url: "/demo_activity_2",
 			            data: { },
 			            success: function(result) {
 			            	var time = 600;
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
-			                		//$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
 			                		$("#animal_name_h").html(v.animal.name_th);
 			                		var url = v.animal.audio_title;
 			                		//$('#audio_anm').attr('src', url);
@@ -123,7 +189,7 @@
 			        $.ajax({
 			            type: "GET",
 			            cache: false,
-			            url: "/start_activity_1",
+			            url: "/start_activity_2",
 			            data: {app_level : apl_level, level_round : lvl_round },
 			            success: function(result) {
 			            	var time = 1000;
@@ -165,4 +231,4 @@
 			});
 			
 			
-		</script>
+		</script> -->

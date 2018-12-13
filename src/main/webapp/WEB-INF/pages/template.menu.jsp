@@ -13,6 +13,7 @@
           <ul class="list-unstyled">
               <li id="edu-home"><a href="${pageContext.request.contextPath}/index"> <i class="icon-home"></i>Home </a></li>
               <li id="admission-registration"><a href="${pageContext.request.contextPath}/activity_1"> <i class="fa fa-paw"></i>1. Animal </a></li>
+              <li id="activity_2"><a href="${pageContext.request.contextPath}/activity_2"> <i class="fa fa-cubes"></i>2. Object </a></li>
               <%-- <li id="school-profile"><a href="${pageContext.request.contextPath}/activity_1"> <i class="fa fa-bar-chart"></i>2. Object </a></li>
               <li id="school-profile"><a href="#"> <i class="fa fa-bar-chart"></i>3. N/A </a></li>
               <li id="school-profile"><a href="#"> <i class="fa fa-bar-chart"></i>4. Random </a></li>
