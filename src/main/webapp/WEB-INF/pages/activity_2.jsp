@@ -78,7 +78,7 @@
 				var lvl_round = $("#lvl_round").val();
 				
 				$("#start").click(function(e) {
-					//$('#start').prop('disabled', true);
+					$('#start').prop('disabled', true);
 					loadActivity();
 				});
 				
@@ -107,10 +107,10 @@
 								$("#act_level").html(apl_level);
 								$("#level_round").html(lvl_round);
 								
-								/* setTimeout(function(){
+								setTimeout(function(){
 									$("#animal_name_h").html("");
 									$('#start').prop('disabled', false);
-								}, 5000); */
+								}, 1100*(result.length));
 								
 							},
 							function(err){
