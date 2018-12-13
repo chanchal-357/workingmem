@@ -52,6 +52,15 @@
                             <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right">
                           </div>
                         </div>
+                        
+                        <div class="form-group row" style="display:none;">
+                          <label class="col-sm-3 form-control-label">Reset Level</label>
+                          <div class="col-sm-9">
+							<input type="text" class="" id="rst_level" value="" />  
+							<input type="button" id="refreshlevel" value="Reset" class="btn btn-primary pull-right">                        
+                          </div>
+                        </div>
+                        
                       </form>
                     </div>
                   </div>
@@ -69,9 +78,19 @@
 				var lvl_round = $("#lvl_round").val();
 				
 				$("#start").click(function(e) {
-					$('#start').prop('disabled', true);
+					//$('#start').prop('disabled', true);
 					loadActivity();
 				});
+				
+				$("#refreshlevel").on('click', refreshLevel);
+			    
+				function refreshLevel() {
+					var level = $("#rst_level").val();
+					if(level != "" && parseInt(level) > 0) {
+						apl_level = level;
+						lvl_round = 0;
+					}
+				}
 				
 				function loadActivity() {
 					$.ajax({
