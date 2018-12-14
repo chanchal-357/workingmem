@@ -57,22 +57,15 @@
                 		<img src="resources/img/flags/16/GB.png" alt="English" id="selLangImg"/>
                 		<span class="d-none d-sm-inline-block" id="selLangTxt">English</span>
                 	</a>
-	                <ul aria-labelledby="languages" class="dropdown-menu" id="unselLang" > <!-- onClick="changeLang(2);" -->
+	                <ul aria-labelledby="languages" class="dropdown-menu" id="unselLang" onClick="changeLang('th', true);"> <!-- onClick="changeLang(2);" -->
 	                	<li>
 	                  		<a rel="nofollow" href="#" class="dropdown-item"> 
-	                  			<img src="resources/img/flags/16/TH.png" alt="Thai" class="mr-2"/>Thai
+	                  			<img src="resources/img/flags/16/TH.png" alt="Thai" class="mr-2" id="unselLangImg" /><span id="unselLangTxt"> Thai </span>
 	                  		</a>
 	                  	</li>
 	                </ul>
                 </li>
               </ul>
-              
-              <%-- <span><spring:message code="lang.change"/></span>:
-			  <select id="locales">
-				    <option value=""></option>
-				    <option value="en"><spring:message code="lang.eng"/></option>
-				    <option value="th"><spring:message code="lang.th"/></option>
-			  </select> --%>
 				
             </div>
           </div>
