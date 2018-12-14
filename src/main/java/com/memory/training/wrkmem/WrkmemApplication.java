@@ -15,4 +15,5 @@ public class WrkmemApplication /*extends SpringBootServletInitializer*/ {
 	public static void main(String[] args) {
 		SpringApplication.run(WrkmemApplication.class, args);
 	}
+	
 }

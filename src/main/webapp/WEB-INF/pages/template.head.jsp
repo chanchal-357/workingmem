@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -51,12 +52,28 @@
               <!-- Navbar Menu -->
               <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                 <!-- Languages dropdown    -->
-                <li class="nav-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle"><img src="resources/img/flags/16/GB.png" alt="English"><span class="d-none d-sm-inline-block">English</span></a>
-                  <ul aria-labelledby="languages" class="dropdown-menu">
-                    <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="resources/img/flags/16/TH.png" alt="Thai" class="mr-2">Thai</a></li>
-                  </ul>
+                <li class="nav-item dropdown">
+                	<a id="languages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link language dropdown-toggle">
+                		<img src="resources/img/flags/16/GB.png" alt="English" id="selLangImg"/>
+                		<span class="d-none d-sm-inline-block" id="selLangTxt">English</span>
+                	</a>
+	                <ul aria-labelledby="languages" class="dropdown-menu" id="unselLang" > <!-- onClick="changeLang(2);" -->
+	                	<li>
+	                  		<a rel="nofollow" href="#" class="dropdown-item"> 
+	                  			<img src="resources/img/flags/16/TH.png" alt="Thai" class="mr-2"/>Thai
+	                  		</a>
+	                  	</li>
+	                </ul>
                 </li>
               </ul>
+              
+              <%-- <span><spring:message code="lang.change"/></span>:
+			  <select id="locales">
+				    <option value=""></option>
+				    <option value="en"><spring:message code="lang.eng"/></option>
+				    <option value="th"><spring:message code="lang.th"/></option>
+			  </select> --%>
+				
             </div>
           </div>
         </nav>

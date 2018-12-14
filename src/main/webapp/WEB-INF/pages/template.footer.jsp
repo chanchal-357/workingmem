@@ -28,13 +28,35 @@
     <script src="${pageContext.request.contextPath}/resources/js/gijgo.min.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-		/* $(document).ready(function() {
+		$(document).ready(function() {
 			$('#'+'${mainmenu}').addClass("active");
-		}); */
-		$('.date-field').datepicker({
+		});
+		/* $('.date-field').datepicker({
 	    	showOtherMonths: true, 
 	    	format: 'dd/mm/yyyy'
-	    });
+	    }); */
+	    
+	    /* $("#locales").change(function () {
+	        var selectedOption = $('#locales').val();
+	        if (selectedOption != ''){
+	            window.location.replace('index?lang=' + selectedOption);
+	        }
+	    }); 
+	    
+	    function changeLang(value) {
+	    	if(value == '2') {
+	    		window.location.replace('index?lang=th');
+	    		$("#selLangImg").attr("src","resources/img/flags/16/TH.png");
+	    		$("#selLangTxt").html('Thai');
+	    		$("#unselLang").attr("onClick","changeLang(1)");
+	    	}
+	    	else {
+	    		window.location.replace('index?lang=en');
+	    		$("#selLangImg").attr("src","resources/img/flags/16/GB.png");
+	    		$("#selLangTxt").html('English');
+	    		$("#unselLang").attr("onClick","changeLang(2)");
+	    	}
+	    } */
 	</script>
 	
   </body>

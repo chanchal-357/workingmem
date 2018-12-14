@@ -29,6 +29,7 @@ public class ApplicationController {
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String welcomePage(Model m) {
+		m.addAttribute("mainmenu", "home_page");
 		return "index";
 	}
 	
@@ -38,6 +39,7 @@ public class ApplicationController {
 		Boolean isRefresh = refresh != null && "1".equals(refresh) ? true : false;
 		lst = this.populateAppActivities(isRefresh);
 		System.out.println(gson.toJson(lst));
+		m.addAttribute("mainmenu", "activity_1");
 		return "activity_1";
 	}
 	
@@ -47,6 +49,7 @@ public class ApplicationController {
 		Boolean isRefresh = refresh != null && "1".equals(refresh) ? true : false;
 		lst = this.populateAppActivities(isRefresh);
 		System.out.println(gson.toJson(lst));
+		m.addAttribute("mainmenu", "activity_2");
 		return "activity_2";
 	}
 	
@@ -180,12 +183,6 @@ public class ApplicationController {
 		return lst;
 	}
 	
-	//TODO Refresh level method
-	@ResponseBody
-	@RequestMapping(value = "/refresh_activity", method = RequestMethod.GET) 
-	public String refreshActivity(Model m) {
-		return "";
-	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/refresh_activity_level", method = RequestMethod.GET) 
@@ -193,4 +190,5 @@ public class ApplicationController {
 		String level = request.getParameter("lvl");
 		return level;
 	}
+	
 }
