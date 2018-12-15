@@ -78,6 +78,7 @@
 				var lvl_round = $("#lvl_round").val();
 				
 				$("#start").click(function(e) {
+					$("#start").prop("value", "Next")
 					$('#start').prop('disabled', true);
 					loadActivity();
 				});
@@ -110,6 +111,7 @@
 								setTimeout(function(){
 									$("#animal_name_h").html("");
 									$('#start').prop('disabled', false);
+									$("#start").focus();
 								}, 1100*(result.length));
 								
 							},
