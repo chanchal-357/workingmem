@@ -57,6 +57,15 @@
                             <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right">
                           </div>
                         </div>
+                        
+                        <div class="form-group row" style="display:none;">
+                          <label class="col-sm-3 form-control-label">Reset Level</label>
+                          <div class="col-sm-9">
+							<input type="text" class="" id="rst_level" value="" />  
+							<input type="button" id="refreshlevel" value="Reset" class="btn btn-primary pull-right">                        
+                          </div>
+                        </div>
+                        
                       </form>
                     </div>
                   </div>
@@ -67,14 +76,16 @@
           </section>
          <jsp:include page="template.footer.jsp" />
          <script type="text/javascript">
-			$(document).ready(function() {
-
+			$(document).ready(function() {  
+				
 				setTimeout(function(){
 					loadDemo();
 				}, 1000);
 				
 				$("#demo").on('click', loadDemo);
-			    
+				
+				var audioPrefix="resources/audio/";
+				
 			    function loadDemo() {
 			        $.ajax({
 			            type: "GET",
@@ -82,11 +93,11 @@
 			            data: { },
 			            success: function(result) {
 			            	var time = 600;
+			            	
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
-			                		//$("#animal_name_h").html(v.animal.name_th + " " +v.animal.name_en);
 			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = v.animal.audio_title;
+			                		var url = audioPrefix + v.animal.audio_title;
 			                		//$('#audio_anm').attr('src', url);
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
@@ -110,59 +121,84 @@
 			    }
 			    
 			    
-			    var apl_activity = $("#app_activity").val();
-			    var apl_level = $("#app_level").val();
-			    var lvl_round = $("#lvl_round").val();
+				var apl_level = $("#app_level").val();
+				var lvl_round = $("#lvl_round").val();
+				
+				$("#start").click(function(e) {
+					$("#start").prop("value", "Next")
+					$('#start').prop('disabled', true);
+					loadActivity();
+				});
+				
+				$("#refreshlevel").on('click', refreshLevel);
 			    
-			    $("#start").click(function(e) {
-			    	$("#progressbar").width("0%");
-			    	$("#start").prop("value", "Next")
-			    	//$('#start').prop('disabled', true);
-			        e.preventDefault();
-			        
-			        $.ajax({
-			            type: "GET",
-			            cache: false,
-			            url: "/start_activity_1",
-			            data: {app_level : apl_level, level_round : lvl_round },
-			            success: function(result) {
-			            	var time = 1000;
-			            	var progress = parseInt(0);
-		            		$.each(result, function(k, v) {
-		            			progress = parseInt(v.levelCompletion);
-			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = v.animal.audio_title;
-			                		var audio = document.createElement("audio");
-			                		audio.src = url;
-			                		audio.addEventListener("canplaythrough", function () {
-		                		        audio.play();
-		                		        setTimeout(function(){
-		                		        	$("#progressbar").width(progress+"%");
-		                		        	//$("#animal_name_h").html('');
-		                		        	audio.pause();
-		                		        },
-		                		        1200);
-		                		    }, false);
-	                			}, time);
-			                	time += 1200;
-			                	
-			                	apl_level = v.activity_level;
-			                	lvl_round = v.level_round;
-			                	$("#act_level").html(apl_level);
-			                	$("#level_round").html(lvl_round);
-			                });
-			            },
-			            error: function(result) {
-			                alert('error');
-			            }
-			        });
-			    });
-			    
-			    /*$("#level").on('click', refreshLevel);
-			    function refreshLevel(lvl) {
-				}*/
+				function refreshLevel() {
+					var level = $("#rst_level").val();
+					if(level != "" && parseInt(level) > 0) {
+						apl_level = level;
+						lvl_round = 0;
+					}
+				}
+				
+				function loadActivity() {
+					$.ajax({
+						type: "GET",
+						cache: false,
+						url: "/start_activity_1",
+						data: {app_level : apl_level, level_round : lvl_round },
+						success: function(result) {
+							syncAudioFunction(result).then(function(rslt){
+								var arr = rslt.split("|");
+								apl_level = arr[0];
+								lvl_round = arr[1];
+								
+								$("#act_level").html(apl_level);
+								$("#level_round").html(lvl_round);
+								
+								setTimeout(function(){
+									$("#animal_name_h").html("");
+									$('#start').prop('disabled', false);
+									$("#start").focus();
+								}, 1100*(result.length));
+								
+							},
+							function(err){
+							  console.log('This is error message.');
+							});
+						},
+						error: function(result) {
+							alert('error');
+						}
+					});
+				}
 			});
 			
+			function syncAudioFunction(result) {
+				var audioPrefix = "resources/audio/";
+				var dfrd1= $.Deferred();
+				var time = 1000;
+				var progress = 0;
+				$.each(result, function(k, v) {
+					progress = v.levelCompletion;
+					setTimeout(function(){
+						$("#animal_name_h").html(/* v.animal.name_en + " - " +   */v.animal.name_th);
+						var url = audioPrefix + v.animal.audio_title;
+						var audio = document.createElement("audio");
+						audio.src = url;
+						audio.addEventListener("canplaythrough", function () {
+							audio.play();
+							setTimeout(function(){
+								$("#progressbar").width(progress+"%");
+								audio.pause();
+							},
+							1200);
+						}, false);
+						dfrd1.resolve(v.activity_level+"|"+v.level_round);
+					}, time);
+					time += 1200;
+					
+				});
+				return dfrd1.promise();
+			}
 			
-		</script>
+	</script>

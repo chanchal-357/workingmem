@@ -79,7 +79,9 @@
 				}, 1000);
 				
 				$("#demo").on('click', loadDemo);
-			    
+				
+				var audioPrefix = "resources/audio/";
+				
 			    function loadDemo() {
 			        $.ajax({
 			            type: "GET",
@@ -90,7 +92,7 @@
 			                $.each(result, function(k, v) {
 			                	setTimeout(function(){
 			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = v.animal.audio_title;
+			                		var url = audioPrefix + v.animal.audio_title;
 			                		//$('#audio_anm').attr('src', url);
 			                		var audio = document.createElement("audio");
 			                		audio.src = url;
@@ -167,6 +169,7 @@
 			});
 			
 			function syncAudioFunction(result) {
+				var audioPrefix = "resources/audio/";
 				var dfrd1= $.Deferred();
 				var time = 1000;
 				var progress = 0;
@@ -174,7 +177,7 @@
 					progress = v.levelCompletion;
 					setTimeout(function(){
 						$("#animal_name_h").html(/* v.animal.name_en + " - " +   */v.animal.name_th);
-						var url = v.animal.audio_title;
+						var url = audioPrefix + v.animal.audio_title;
 						var audio = document.createElement("audio");
 						audio.src = url;
 						audio.addEventListener("canplaythrough", function () {
