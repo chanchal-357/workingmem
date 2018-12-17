@@ -54,73 +54,99 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4">
-                	<div class="client card">
+               <div class="col-lg-4">
+                   <div class="client card">
                     <div class="card-body text-center">
-                      <div class="client-avatar"><img src="resources/img/avatar-2.jpg" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					        </div>
+					        <div class="back backImg" id="bckImg4">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
                 </div>
                 <div class="col-lg-4">
-                	<div class="client card">
+                   <div class="client card">
                     <div class="card-body text-center">
-                      <div class="client-avatar"><img src="resources/img/avatar-2.jpg" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					        </div>
+					        <div class="back backImg" id="bckImg5">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
+                </div>
+               <div class="col-lg-4">
+                   <div class="client card">
+                    <div class="card-body text-center">
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					        </div>
+					        <div class="back backImg" id="bckImg6">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
                 </div>
                 <div class="col-lg-4">
-                	<div class="client card">
+                   <div class="client card">
                     <div class="card-body text-center">
-                      <div class="client-avatar"><img src="resources/img/avatar-2.jpg" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					        </div>
+					        <div class="back backImg" id="bckImg7">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
                 </div>
                 <div class="col-lg-4">
-                	<div class="client card">
+                   <div class="client card">
                     <div class="card-body text-center">
-                      <div class="client-avatar"><img src="#" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					            <!-- front content -->
+					        </div>
+					        <div class="back backImg" id="bckImg8">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
                 </div>
                 <div class="col-lg-4">
-                	<div class="client card">
+                   <div class="client card">
                     <div class="card-body text-center">
-                      <div class="client-avatar"><img src="#" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
+	                  <div class="flip-container">
+					    <div class="flipper">
+					        <div class="front artist-1">
+					            <!-- front content -->
+					        </div>
+					        <div class="back backImg" id="bckImg9">
+					        </div>
+					    </div>
+						</div>
+					</div>
+				  </div>
+                </div>
+				
+				<div class="form-group row">       
+                  <div class="col-sm-12 offset-sm-3">
+                    <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right" >
                   </div>
                 </div>
-                <div class="col-lg-4">
-                	<div class="client card">
-                    <div class="card-body text-center">
-                      <div class="client-avatar"><img src="#" alt="..." class="img-fluid rounded-circle">
-                        <div class="status bg-green"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="flip-container">
-				    <div class="flipper">
-				        <div class="front artist-1">
-				            <!-- front content -->
-				        </div>
-				        <div class="back">
-				            <p>You won</p>
-				        </div>
-				    </div>
-				</div>
-
-
+                        
               </div>
             </div>
           </section>
@@ -131,6 +157,15 @@
 				$('.flip-container .flipper').click(function() {
 					$(this).closest('.flip-container').toggleClass('hover');
 				    $(this).css('transform, rotateY(180deg)');
-				});				
+				});		
+				
+				$("#start").on('click', changeImg);
+				
+				function changeImg() {
+					var imgUrl = "resources/img/avatar-8.jpg";
+					console.log("Image Url: " + imgUrl);
+					$('#bckImg9').css("background-image", "url("+imgUrl+")");  
+				}
+				
 			});
 			</script>
