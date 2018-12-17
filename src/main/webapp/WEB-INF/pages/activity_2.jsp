@@ -6,7 +6,7 @@
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Working Memory</h2>
+              <h2 class="no-margin-bottom">Activity 2</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
@@ -17,7 +17,7 @@
             </ul>
           </div>
           <!-- Forms Section-->
-          <section class="forms"> 
+          <section class="forms no-padding-top"> 
             <div class="container-fluid">
               <div class="row">
                         
@@ -74,6 +74,46 @@
         <script type="text/javascript">
 			$(document).ready(function() {  
 				
+				setTimeout(function(){
+					loadDemo();
+				}, 1000);
+				
+				$("#demo").on('click', loadDemo);
+			    
+			    function loadDemo() {
+			        $.ajax({
+			            type: "GET",
+			            url: "/demo_activity_2",
+			            data: { },
+			            success: function(result) {
+			            	var time = 600;
+			                $.each(result, function(k, v) {
+			                	setTimeout(function(){
+			                		$("#animal_name_h").html(v.animal.name_th);
+			                		var url = v.animal.audio_title;
+			                		//$('#audio_anm').attr('src', url);
+			                		var audio = document.createElement("audio");
+			                		audio.src = url;
+			                		audio.addEventListener("canplaythrough", function () {
+			                		        audio.play();
+			                		        setTimeout(function(){
+			                		            audio.pause();
+			                		        },
+			                		        1200);
+			                		        
+			                		    }, false);
+	                			}, time);
+			                	time += 1200;
+			                });
+			               // $("#animal_name").val("Finish");
+			            },
+			            error: function(result) {
+			                alert('error');
+			            }
+			        });
+			    }
+			    
+			    
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
 				
@@ -97,7 +137,7 @@
 					$.ajax({
 						type: "GET",
 						cache: false,
-						url: "/start_activity_1",
+						url: "/start_activity_2",
 						data: {app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
 							syncAudioFunction(result).then(function(rslt){
@@ -154,102 +194,3 @@
 			}
 			
 	</script>
-        <!--  <script type="text/javascript">
-			$(document).ready(function() {
-
-				setTimeout(function(){
-					loadDemo();
-				}, 1000);
-				
-				$("#demo").on('click', loadDemo);
-			    
-			    function loadDemo() {
-			        $.ajax({
-			            type: "GET",
-			            url: "/demo_activity_2",
-			            data: { },
-			            success: function(result) {
-			            	var time = 600;
-			                $.each(result, function(k, v) {
-			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = v.animal.audio_title;
-			                		//$('#audio_anm').attr('src', url);
-			                		var audio = document.createElement("audio");
-			                		audio.src = url;
-			                		audio.addEventListener("canplaythrough", function () {
-			                		        audio.play();
-			                		        setTimeout(function(){
-			                		            audio.pause();
-			                		        },
-			                		        1200);
-			                		        
-			                		    }, false);
-	                			}, time);
-			                	time += 1200;
-			                });
-			               // $("#animal_name").val("Finish");
-			            },
-			            error: function(result) {
-			                alert('error');
-			            }
-			        });
-			    }
-			    
-			    
-			    var apl_activity = $("#app_activity").val();
-			    var apl_level = $("#app_level").val();
-			    var lvl_round = $("#lvl_round").val();
-			    
-			    $("#start").click(function(e) {
-			    	$("#progressbar").width("0%");
-			    	$("#start").prop("value", "Next")
-			    	//$('#start').prop('disabled', true);
-			        e.preventDefault();
-			        
-			        $.ajax({
-			            type: "GET",
-			            cache: false,
-			            url: "/start_activity_2",
-			            data: {app_level : apl_level, level_round : lvl_round },
-			            success: function(result) {
-			            	var time = 1000;
-			            	var progress = parseInt(0);
-		            		$.each(result, function(k, v) {
-		            			progress = parseInt(v.levelCompletion);
-			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = v.animal.audio_title;
-			                		var audio = document.createElement("audio");
-			                		audio.src = url;
-			                		audio.addEventListener("canplaythrough", function () {
-		                		        audio.play();
-		                		        setTimeout(function(){
-		                		        	$("#progressbar").width(progress+"%");
-		                		        	//$("#animal_name_h").html('');
-		                		        	audio.pause();
-		                		        },
-		                		        1200);
-		                		    }, false);
-	                			}, time);
-			                	time += 1200;
-			                	
-			                	apl_level = v.activity_level;
-			                	lvl_round = v.level_round;
-			                	$("#act_level").html(apl_level);
-			                	$("#level_round").html(lvl_round);
-			                });
-			            },
-			            error: function(result) {
-			                alert('error');
-			            }
-			        });
-			    });
-			    
-			    /*$("#level").on('click', refreshLevel);
-			    function refreshLevel(lvl) {
-				}*/
-			});
-			
-			
-		</script> -->

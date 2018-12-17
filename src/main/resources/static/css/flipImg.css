@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+/* flip the pane when hovered */
+
+.flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flip-container,
+.front,
+.back {
+    width: 250px;
+    height: 250px;
+}
+
+
+/* flip speed */
+
+.flipper {
+    transition: 0.8s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+
+/* hide back of pane during swap */
+
+.front,
+.back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/* front pane, placed above back */
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+
+/* back, initially hidden pane */
+
+.back {
+    transform: rotateY(180deg);
+    background-color: #fff;
+}
+
+.artist-1 {
+    background: url(../img/default-image.jpg?w=630&h=420&q=75) center center no-repeat;
+    background-size: cover;
+}

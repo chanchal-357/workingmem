@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.default.css" id="theme-stylesheet">
     <!-- Material Date picker stylesheet-->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/gijgo.min.css" type="text/css"/>
+    
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/flipImg.css" type="text/css"/>
     <!-- Favicon-->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico">
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>

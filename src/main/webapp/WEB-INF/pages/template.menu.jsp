@@ -15,5 +15,6 @@
               <li id="home_page"><a href="${pageContext.request.contextPath}/index"> <i class="icon-home"></i><spring:message code="menu.home" /> </a></li>
               <li id="activity_1"><a href="${pageContext.request.contextPath}/activity_1"> <i class="fa fa-paw"></i>1. <spring:message code="menu.animal" /> </a></li>
               <li id="activity_2"><a href="${pageContext.request.contextPath}/activity_2"> <i class="fa fa-cubes"></i>2. <spring:message code="menu.object" /> </a></li>
+              <li id="activity_3"><a href="${pageContext.request.contextPath}/activity_3"> <i class="fa fa-image"></i>3. <spring:message code="menu.image" /> </a></li>
           </ul>
         </nav>

@@ -6,7 +6,7 @@
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Forms</h2>
+              <h2 class="no-margin-bottom">Activity 1</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
@@ -17,7 +17,7 @@
             </ul>
           </div>
           <!-- Forms Section-->
-          <section class="forms"> 
+          <section class="forms no-padding-top"> 
             <div class="container-fluid">
               <div class="row">
                         

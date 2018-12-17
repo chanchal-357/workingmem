@@ -53,6 +53,16 @@ public class ApplicationController {
 		return "activity_2";
 	}
 	
+	@RequestMapping(value = "/activity_3", method = RequestMethod.GET)
+	public String thirdActivity(Model m, HttpServletRequest request) {
+		String refresh = request.getParameter("q");
+		Boolean isRefresh = refresh != null && "1".equals(refresh) ? true : false;
+		lst = this.populateAppActivities(isRefresh);
+		System.out.println(gson.toJson(lst));
+		m.addAttribute("mainmenu", "activity_3");
+		return "activity_3";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/demo_activity_1", method = RequestMethod.GET) 
 	public List<Application> loadActivity(Model m) {
