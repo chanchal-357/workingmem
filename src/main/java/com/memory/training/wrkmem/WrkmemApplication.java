@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WrkmemApplication /*extends SpringBootServletInitializer*/ {
 
-/*	@Override
+	/*@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(WrkmemApplication.class);
     }*/
