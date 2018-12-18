@@ -209,9 +209,10 @@
 					$.ajax({
 						type: "GET",
 						cache: false,
-						url: "/start_activity_2",
+						url: "/start_activity_3",
 						data: {app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
+							
 							syncAudioFunction(result).then(function(rslt){
 								var arr = rslt.split("|");
 								apl_level = arr[0];
@@ -245,11 +246,12 @@
 		            url: "/demo_activity_3",
 		            data: { },
 		            success: function(result) {
+		            	var rndArr = getRandomIndex(result.length);
 		            	var time = 600;
 		                $.each(result, function(k, v) {
 		                	setTimeout(function(){
 		                		var imgUrl = imgPrefix + v.animal.audio_title;
-			                	var rndId = "#bckImg"+getRandomIndex();
+			                	var rndId = "#bckImg"+rndArr[k];
 			                	console.log("Random Id: " + rndId + ", Image url: " + imgUrl);
 		                		displayImage(imgUrl, rndId).then(function(rslt){
 									setTimeout(function(){
@@ -284,6 +286,8 @@
 			}
 			
 			function syncAudioFunction(result) {
+				var rndArr = getRandomIndex(result.length);
+				
 				var imgPrefix = "resources/image/";
 				var dfrd1= $.Deferred();
 				var time = 1000;
@@ -303,10 +307,14 @@
 				return dfrd1.promise();
 			}
 			
-			function getRandomIndex() {
-				var rnd = Math.floor(Math.random() * 9) + 1;
-				console.log("Random num: " + rnd);
-				return rnd;
+			function getRandomIndex(lngth) {
+				var arr = []
+				while(arr.length < lngth){
+				    var r = Math.floor(Math.random()*9) + 1;
+				    if(arr.indexOf(r) === -1) arr.push(r);
+				}
+				console.log("Random num: " + arr);
+				return arr;
 			}
 			
 			</script>
