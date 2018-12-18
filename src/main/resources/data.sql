@@ -22,7 +22,7 @@ INSERT INTO `animal` (`id`, `name_en`, `name_th`, `audio_title`, `status`) VALUE
 (20, 'Tiger', 'เสือ ', 'Tiger.m4a', 1),
 (21, 'Turtle', 'เต่า ', 'Turtle.m4a', 1);
 
--- Activity 2 Animal data
+-- Activity 2 Object Animal data
 INSERT INTO `animal` (`id`, `name_en`, `name_th`, `audio_title`, `status`) VALUES
 (22, 'Above', 'บน', 'Above.m4a', 1),
 (23, 'Accept', 'ยอม', 'Accept.m4a', 1),
@@ -103,9 +103,15 @@ INSERT INTO `animal` (`id`, `name_en`, `name_th`, `audio_title`, `status`) VALUE
 (98, 'Word', 'คำ', 'Word.m4a', 1),
 (99, 'Yet', 'ยัง', 'Yet.m4a', 1);
 
+
+-- Activity 3 Object Image data
+INSERT INTO `animal` (`id`, `name_en`, `name_th`, `audio_title`, `status`) VALUES
+(100, 'Avatar 1', 'สัญลักษณ์ 1', '1.jpg', 1),
+(101, 'Avatar 2', 'สัญลักษณ์ 2', '2.jpg', 1);
+
 -- Activity data
 Insert into activity (ID, ACTIVITY_NAME_EN, ACTIVITY_NAME_TH, DESCRIPTION, STATUS) VALUES (1, 'Animal Name', 'ชื่อสัตว์', 'Memorize Animal Name', 1), 
-(2, 'Object Name', 'ชื่อออบเจ็กต์', 'Memorize Object Name', 1),  (3, 'Image Poisition', 'ตำแหน่งรูปภาพ', 'Memorize Image Position', 1);
+(2, 'Object Name', 'ชื่อออบเจ็กต์', 'Memorize Object Name', 1),  (3, 'Image Position', 'ตำแหน่งรูปภาพ', 'Memorize Image Position', 1);
 
 -- Activity 1 Application data
 INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
@@ -280,10 +286,6 @@ INSERT INTO application (id, activity_id, animal_id, activity_level, level_round
 INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
 (167, 1,	13,	1,	1,	1,	1),	(168, 1,	3,	1,	1,	2,	1);
 
--- Activity 2 demo data
-INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
-(335, 2,	79,	1,	1,	1,	1),	(336, 2,	85,	1,	1,	2,	1);
-
 -- Activity 2 Application data
 INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
 (169,	2,	37,	1,	1,	1,	0),
@@ -452,3 +454,12 @@ INSERT INTO application (id, activity_id, animal_id, activity_level, level_round
 (332,	2,	16,	8,	4,	7,	0),
 (333,	2,	66,	8,	4,	8,	0),
 (334,	2,	29,	8,	4,	9,	0);
+
+-- Activity 2 demo data
+INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
+(335, 2, 79, 1,	1, 1, 1),	(336, 2, 85, 1,	1, 2, 1);
+
+-- Activity 3 demo data
+INSERT INTO application (id, activity_id, animal_id, activity_level, level_round, round_order, is_example) VALUES 
+(337, 3, 100, 1, 1,	1,	1),	(338, 3, 101, 1, 1,	2,	1);
+
