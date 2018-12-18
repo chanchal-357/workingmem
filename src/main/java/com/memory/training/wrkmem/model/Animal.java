@@ -24,6 +24,9 @@ public class Animal {
 
 	@Column(name = "audio_title")
 	private String audio_title;
+	
+	@Column(name = "image_title")
+	private String image_title;
 
 	@Column(name = "status")
 	private Integer status;
@@ -56,8 +59,16 @@ public class Animal {
 		return audio_title;
 	}
 	
-	public void setAudio_title(String audio_title) {
+	public void setImage_title(String audio_title) {
 		this.audio_title = audio_title;
+	}
+	
+	public String getImage_title() {
+		return image_title;
+	}
+	
+	public void setAudio_title(String image_title) {
+		this.image_title = image_title;
 	}
 	
 	public Integer getStatus() {
