@@ -72,7 +72,7 @@ public class ApplicationController {
 		List<Application> list = this.getActivityList(request);
 		if(request.getParameter("activity_id") != null && "3".equals(request.getParameter("activity_id"))) {
 			Collections.shuffle(list);
-			System.out.println("Suffled list: " + gson.toJson(list));
+			//System.out.println("Shuffled list: " + gson.toJson(list));
 		}
 		return list;
 	}
