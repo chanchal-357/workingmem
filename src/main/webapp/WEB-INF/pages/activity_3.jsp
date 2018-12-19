@@ -301,7 +301,7 @@
                 	setTimeout(function(){
                 		var imgUrl = imgPrefix + v.animal.image_title;
                 		$("#progressbar").width(progress+"%");
-	                	var rndId = "#bckImg"+rndArr[k];
+	                	var rndId = "#bckImg"+(isDemo ? rndArr[k] : v.round_order);
 	                	//console.log("Random Id: " + rndId + ", Image url: " + imgUrl);
                 		displayImage(imgUrl, rndId).then(function(rslt){
 							setTimeout(function(){

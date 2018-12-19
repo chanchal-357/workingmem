@@ -1,5 +1,6 @@
 package com.memory.training.wrkmem.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,12 @@ public class ApplicationController {
 	@ResponseBody
 	@RequestMapping(value = "/start_activity", method = RequestMethod.GET) 
 	public List<Application> loadActivity(HttpServletRequest request) {
-		return this.getActivityList(request);
+		List<Application> list = this.getActivityList(request);
+		if(request.getParameter("activity_id") != null && "3".equals(request.getParameter("activity_id"))) {
+			Collections.shuffle(list);
+			System.out.println("Suffled list: " + gson.toJson(list));
+		}
+		return list;
 	}
 	
 	private List<Application> populateAppActivities(Boolean isRefresh) {
