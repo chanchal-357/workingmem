@@ -13,14 +13,18 @@
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="index">Home</a></li>
               <li class="breadcrumb-item active">Activity 3</li>
+              <label class="col-sm-6 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
             </ul>
           </div>
+           <div class="progress">
+              <div role="progressbar" style="width: 0%; height: 5px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet" id="progressbar"></div>
+            </div>
           <!-- Client Section -->
           <section class="client no-padding-top">
             <div class="container-fluid">
               <div class="row">
                 <!-- Work Amount  -->
-                <div class="col-lg-4">
+                <div class="col-lg-4 no-margin-bottom">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -35,7 +39,7 @@
 				  </div>
                 </div>
                 <!-- Client Profile -->
-                <div class="col-lg-4">
+                <div class="col-lg-4 no-margin-bottom">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -50,7 +54,7 @@
 				  </div>
                 </div>
                 <!-- Total Overdue -->
-                <div class="col-lg-4">
+                <div class="col-lg-4 no-margin-bottom">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -64,7 +68,7 @@
 					</div>
 				  </div>
                 </div>
-               <div class="col-lg-4">
+               <div class="col-lg-4 no-margin-bottom">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -78,7 +82,7 @@
 					</div>
 				  </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 no-margin-bottom">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -92,7 +96,7 @@
 					</div>
 				  </div>
                 </div>
-               <div class="col-lg-4">
+               <div class="col-lg-4 no-margin-bottom">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -141,7 +145,6 @@
 	                  <div class="flip-container">
 					    <div class="flipper">
 					        <div class="front artist-1">
-					            <!-- front content -->
 					        </div>
 					        <div class="back backImg" id="bckImg9">
 					        </div>
@@ -150,13 +153,14 @@
 					</div>
 				  </div>
                 </div>
-				
-				<div class="form-group row">       
-                  <div class="col-sm-12 offset-sm-3">
-                    <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right" >
+                
+				<div class="row col-lg-12">       
+                  <div class="col-sm-12">
+                    <input type="button" id="demo" value="Demo" class="btn btn-primary">
+                    <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right">
                   </div>
                 </div>
-                        
+                
                  <div class="form-group row" style="display:none;">
                  	<label class="col-sm-3 form-control-label">Reset Level</label>
                     <div class="col-sm-9">
@@ -176,16 +180,11 @@
 			$(document).ready(function() {  
 				
 				setTimeout(function(){
-					loadDemo();
+					loadDemoActivity3();
 				}, 1000);
 				
-				$("#demo").on('click', loadDemo);
-				
-				/* $('.flip-container .flipper').click(function() {
-					$(this).closest('.flip-container').toggleClass('hover');
-				    $(this).css('transform, rotateY(180deg)');
-				});	 */	
-				
+				$("#demo").on('click', loadDemoActivity3);
+
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
 				
@@ -213,7 +212,7 @@
 						data: {app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
 							
-							syncAudioFunction(result).then(function(rslt){
+							syncImageFunction(result, false).then(function(rslt){
 								var arr = rslt.split("|");
 								apl_level = arr[0];
 								lvl_round = arr[1];
@@ -224,7 +223,7 @@
 								setTimeout(function(){
 									$('#start').prop('disabled', false);
 									$("#start").focus();
-								}, 1100*(result.length));
+								}, 2200*(result.length));
 								
 							},
 							function(err){
@@ -239,72 +238,68 @@
 				
 			});
 			
-			function loadDemo() {
-				var imgPrefix = "resources/image/";
-		        $.ajax({
-		            type: "GET",
-		            url: "/demo_activity_3",
-		            data: { },
-		            success: function(result) {
-		            	var rndArr = getRandomIndex(result.length);
-		            	var time = 600;
-		                $.each(result, function(k, v) {
-		                	setTimeout(function(){
-		                		var imgUrl = imgPrefix + v.animal.audio_title;
-			                	var rndId = "#bckImg"+rndArr[k];
-			                	console.log("Random Id: " + rndId + ", Image url: " + imgUrl);
-		                		displayImage(imgUrl, rndId).then(function(rslt){
-									setTimeout(function(){
-										$(rndId).closest('.flip-container').toggleClass('hover');
-										//alert(rndId +  " - " + rslt);
-									}, 1000);
-								},
-								function(err){
-								  console.log('This is error message.');
-								});
-                			}, time);
-		                	time += 1100;
-		                });
-		            },
-		            error: function(result) {
-		                alert('error');
-		            }
-		        });
-		    }
+			function loadDemoActivity3() {
+				$('#start').prop('disabled', true);
+				$.ajax({
+					type: "GET",
+					cache: false,
+					url: "/demo_activity_3",
+					data: {},
+					success: function(result) {
+						syncImageFunction(result, true).then(function(rslt){
+							setTimeout(function(){
+								$('#start').prop('disabled', false);
+								$("#start").focus();
+							}, 2200*(result.length));
+						},
+						function(err){
+						  console.log('This is error message.');
+						});
+					},
+					error: function(result) {
+						alert('error');
+					}
+				});
+			}
 			
 			function displayImage(imgUrl, rndId) {
 				var dfrd1= $.Deferred();
-				var time = 1000;
+				var time = 1300;
 				setTimeout(function(){
-            		$(rndId).closest('.flip-container').toggleClass('hover');
-    				$(rndId).css("background-image", "url("+imgUrl+")");
-    				
+					$(rndId).css("background-image", "url("+imgUrl+")");
+					$(rndId).closest('.flip-container').toggleClass('hover');
     				dfrd1.resolve(true);
     			}, time);
-				time += 1200;
 				return dfrd1.promise();
 			}
 			
-			function syncAudioFunction(result) {
+			function syncImageFunction(result, isDemo) {
 				var rndArr = getRandomIndex(result.length);
-				
 				var imgPrefix = "resources/image/";
 				var dfrd1= $.Deferred();
-				var time = 1000;
-				var progress = 0;
-				$.each(result, function(k, v) {
-					progress = v.levelCompletion;
-					setTimeout(function(){
-						var imgUrl = imgPrefix + v.animal.audio_title;
-                		$(rndId).closest('.flip-container').toggleClass('hover');
-        				$(rndId).css("background-image", "url("+imgUrl+")");
-        				
-						dfrd1.resolve(v.activity_level+"|"+v.level_round);
-					}, time);
-					time += 1200;
-					
-				});
-				return dfrd1.promise();
+            	var time = 700;
+            	var progress = 0;
+                $.each(result, function(k, v) {
+                	progress = isDemo ? 0 : v.levelCompletion;
+                	setTimeout(function(){
+                		var imgUrl = imgPrefix + v.animal.image_title;
+                		$("#progressbar").width(progress+"%");
+	                	var rndId = "#bckImg"+rndArr[k];
+	                	//console.log("Random Id: " + rndId + ", Image url: " + imgUrl);
+                		displayImage(imgUrl, rndId).then(function(rslt){
+							setTimeout(function(){
+								$(rndId).closest('.flip-container').toggleClass('hover');
+							}, 1100);
+						},
+						function(err){
+						  console.log('This is error message.');
+						});
+                		dfrd1.resolve(v.activity_level+"|"+v.level_round);
+        			}, time);
+                	time += 1700;
+                });
+                return dfrd1.promise();
+                
 			}
 			
 			function getRandomIndex(lngth) {
