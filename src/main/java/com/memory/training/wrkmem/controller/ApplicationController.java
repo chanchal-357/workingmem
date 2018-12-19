@@ -51,6 +51,12 @@ public class ApplicationController {
 		return processActivityPage(request, m, pageUrl);
 	}
 	
+	@RequestMapping(value = "/activity_4", method = RequestMethod.GET)
+	public String fourthActivity(Model m, HttpServletRequest request) {
+		String pageUrl = "activity_4"; 
+		return processActivityPage(request, m, pageUrl);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/demo_activity", method = RequestMethod.GET) 
 	public List<Application> loadDemoActivity(HttpServletRequest request) {
