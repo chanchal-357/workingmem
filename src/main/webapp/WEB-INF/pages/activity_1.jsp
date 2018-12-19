@@ -87,39 +87,28 @@
 				var audioPrefix="resources/audio/";
 				
 			    function loadDemo() {
-			        $.ajax({
-			            type: "GET",
-			            url: "/demo_activity_1",
-			            data: { },
-			            success: function(result) {
-			            	var time = 600;
-			            	
-			                $.each(result, function(k, v) {
-			                	setTimeout(function(){
-			                		$("#animal_name_h").html(v.animal.name_th);
-			                		var url = audioPrefix + v.animal.audio_title;
-			                		//$('#audio_anm').attr('src', url);
-			                		var audio = document.createElement("audio");
-			                		audio.src = url;
-			                		audio.addEventListener("canplaythrough", function () {
-			                		        audio.play();
-			                		        setTimeout(function(){
-			                		            audio.pause();
-			                		        },
-			                		        1200);
-			                		        
-			                		    }, false);
-	                			}, time);
-			                	time += 1200;
-			                });
-			               // $("#animal_name").val("Finish");
-			            },
-			            error: function(result) {
-			                alert('error');
-			            }
-			        });
+			    	$('#start').prop('disabled', true);
+			    	$.ajax({
+			    		type: "GET",
+			    		url: "/demo_activity",
+			    		data: {activity_id : 1},
+			    		success: function(result) {
+			    			syncAudioFunction(result, true).then(function(rslt){
+			    				setTimeout(function(){
+			    					$("#animal_name_h").html("");
+			    					$('#start').prop('disabled', false);
+			    					$("#start").focus();
+			    				}, 1100*(result.length));
+			    			},
+			    			function(err){
+			    			  console.log('This is error message. ' + err);
+			    			});
+			    		},
+			    		error: function(result) {
+			    			alert('error ' + result);
+			    		}
+			    	});
 			    }
-			    
 			    
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
@@ -127,6 +116,7 @@
 				$("#start").click(function(e) {
 					$("#start").prop("value", "Next")
 					$('#start').prop('disabled', true);
+					$('#demo').prop('disabled', true);
 					loadActivity();
 				});
 				
@@ -144,10 +134,10 @@
 					$.ajax({
 						type: "GET",
 						cache: false,
-						url: "/start_activity_1",
-						data: {app_level : apl_level, level_round : lvl_round },
+						url: "/start_activity",
+						data: {activity_id : 1, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
-							syncAudioFunction(result).then(function(rslt){
+							syncAudioFunction(result, false).then(function(rslt){
 								var arr = rslt.split("|");
 								apl_level = arr[0];
 								lvl_round = arr[1];
@@ -159,6 +149,7 @@
 									$("#animal_name_h").html("");
 									$('#start').prop('disabled', false);
 									$("#start").focus();
+									$('#demo').prop('disabled', false);
 								}, 1100*(result.length));
 								
 							},
@@ -173,15 +164,15 @@
 				}
 			});
 			
-			function syncAudioFunction(result) {
+			function syncAudioFunction(result, is_demo) {
 				var audioPrefix = "resources/audio/";
 				var dfrd1= $.Deferred();
 				var time = 1000;
 				var progress = 0;
 				$.each(result, function(k, v) {
-					progress = v.levelCompletion;
+					progress = is_demo ? 0 : v.levelCompletion;
 					setTimeout(function(){
-						$("#animal_name_h").html(/* v.animal.name_en + " - " +   */v.animal.name_th);
+						$("#animal_name_h").html(v.animal.name_th);
 						var url = audioPrefix + v.animal.audio_title;
 						var audio = document.createElement("audio");
 						audio.src = url;
@@ -196,7 +187,6 @@
 						dfrd1.resolve(v.activity_level+"|"+v.level_round);
 					}, time);
 					time += 1200;
-					
 				});
 				return dfrd1.promise();
 			}

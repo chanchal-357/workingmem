@@ -52,45 +52,17 @@ public class ApplicationController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/demo_activity_1", method = RequestMethod.GET) 
-	public List<Application> loadActivity(Model m) {
-		Long activityId = 1L;
+	@RequestMapping(value = "/demo_activity", method = RequestMethod.GET) 
+	public List<Application> loadDemoActivity(HttpServletRequest request) {
+		String activity_id = request.getParameter("activity_id") != null ? request.getParameter("activity_id") : "0";
+		Long activityId = Long.parseLong(activity_id);
 		return this.getDemoActivityList(activityId);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/demo_activity_2", method = RequestMethod.GET) 
-	public List<Application> load2ndDemoActivity(Model m) {
-		Long activityId = 2L;
-		return this.getDemoActivityList(activityId);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/demo_activity_3", method = RequestMethod.GET) 
-	public List<Application> load3rdDemoActivity(Model m) {
-		Long activityId = 3L;
-		return this.getDemoActivityList(activityId);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/start_activity_1", method = RequestMethod.GET) 
-	public List<Application> load1stActivity(Model m, HttpServletRequest request) {
-		Long activityId = 1L; // For Activity One
-		return this.getActivityList(activityId, request);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/start_activity_2", method = RequestMethod.GET) 
-	public List<Application> load2ndActivity(Model m, HttpServletRequest request) {
-		Long activityId = 2L; // For Activity Two
-		return this.getActivityList(activityId, request);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/start_activity_3", method = RequestMethod.GET) 
-	public List<Application> load3rdActivity(Model m, HttpServletRequest request) {
-		Long activityId = 3L; // For Activity Three
-		return this.getActivityList(activityId, request);
+	@RequestMapping(value = "/start_activity", method = RequestMethod.GET) 
+	public List<Application> loadActivity(HttpServletRequest request) {
+		return this.getActivityList(request);
 	}
 	
 	private List<Application> populateAppActivities(Boolean isRefresh) {
@@ -116,13 +88,13 @@ public class ApplicationController {
 		return list;
 	}
 	
-	private List<Application> getActivityList(Long activityId, HttpServletRequest request) {
+	private List<Application> getActivityList(HttpServletRequest request) {
 
-		
+		String activity_id = request.getParameter("activity_id");
 		String app_level = request.getParameter("app_level");
 		String level_round = request.getParameter("level_round");
 		System.out.println("Level: " + app_level + ", Round: " + level_round);
-		
+		Long activityId = Long.parseLong(activity_id);
 		Integer activityLevel = Integer.parseInt(app_level);
 		Integer levelRound = Integer.parseInt(level_round) + 1;
 		

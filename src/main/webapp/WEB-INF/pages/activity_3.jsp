@@ -1,5 +1,18 @@
-  
+  		
         <jsp:include page="template.head.jsp" />
+        <style>
+        	.card-body {
+			    padding: 0.75rem !important;
+			}
+        	.page-header {
+			  background: #fff;
+			  padding: 10px;
+			  -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+			  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+			  position: relative;
+			  z-index: 8;
+			}
+        </style>
         
         <div class="content-inner">
           <!-- Page Header-->
@@ -16,15 +29,15 @@
               <label class="col-sm-6 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
             </ul>
           </div>
-           <div class="progress">
+           <div class="progress nopadding">
               <div role="progressbar" style="width: 0%; height: 5px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet" id="progressbar"></div>
             </div>
           <!-- Client Section -->
-          <section class="client no-padding-top">
+          <section class="client no-padding-top" style="padding-bottom: 10px;">
             <div class="container-fluid">
-              <div class="row">
-                <!-- Work Amount  -->
-                <div class="col-lg-4 no-margin-bottom">
+              <!-- <div class="row"> -->
+              <div class="row justify-content-center">
+                <div class="col-lg-3.5">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -38,8 +51,7 @@
 					</div>
 				  </div>
                 </div>
-                <!-- Client Profile -->
-                <div class="col-lg-4 no-margin-bottom">
+                <div class="col-lg-3.5">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -53,8 +65,7 @@
 					</div>
 				  </div>
                 </div>
-                <!-- Total Overdue -->
-                <div class="col-lg-4 no-margin-bottom">
+                <div class="col-lg-3.5">
                 	<div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -68,7 +79,9 @@
 					</div>
 				  </div>
                 </div>
-               <div class="col-lg-4 no-margin-bottom">
+                </div>
+                <div class="row justify-content-center">
+               <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -82,7 +95,7 @@
 					</div>
 				  </div>
                 </div>
-                <div class="col-lg-4 no-margin-bottom">
+                <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -96,7 +109,7 @@
 					</div>
 				  </div>
                 </div>
-               <div class="col-lg-4 no-margin-bottom">
+               <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -110,7 +123,9 @@
 					</div>
 				  </div>
                 </div>
-                <div class="col-lg-4">
+                </div>
+                <div class="row justify-content-center">
+                <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -124,7 +139,7 @@
 					</div>
 				  </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -139,7 +154,7 @@
 					</div>
 				  </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3.5">
                    <div class="client card">
                     <div class="card-body text-center">
 	                  <div class="flip-container">
@@ -153,7 +168,7 @@
 					</div>
 				  </div>
                 </div>
-                
+                </div>
 				<div class="row col-lg-12">       
                   <div class="col-sm-12">
                     <input type="button" id="demo" value="Demo" class="btn btn-primary">
@@ -171,7 +186,7 @@
                  <input type="hidden" id="app_level" value="1" />
                  <input type="hidden" id="lvl_round" value="0" />    
                    
-              </div>
+             <!--  </div> -->
             </div>
           </section>
          <jsp:include page="template.footer.jsp" />
@@ -180,10 +195,10 @@
 			$(document).ready(function() {  
 				
 				setTimeout(function(){
-					loadDemoActivity3();
+					loadDemoActivity();
 				}, 1000);
 				
-				$("#demo").on('click', loadDemoActivity3);
+				$("#demo").on('click', loadDemoActivity);
 
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
@@ -191,6 +206,7 @@
 				$("#start").click(function(e) {
 					$("#start").prop("value", "Next")
 					$('#start').prop('disabled', true);
+					$('#demo').prop('disabled', true);
 					loadActivity();
 				});
 				
@@ -208,8 +224,8 @@
 					$.ajax({
 						type: "GET",
 						cache: false,
-						url: "/start_activity_3",
-						data: {app_level : apl_level, level_round : lvl_round },
+						url: "/start_activity",
+						data: {activity_id : 3, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
 							
 							syncImageFunction(result, false).then(function(rslt){
@@ -223,6 +239,7 @@
 								setTimeout(function(){
 									$('#start').prop('disabled', false);
 									$("#start").focus();
+									$('#demo').prop('disabled', false);
 								}, 2200*(result.length));
 								
 							},
@@ -238,13 +255,13 @@
 				
 			});
 			
-			function loadDemoActivity3() {
+			function loadDemoActivity() {
 				$('#start').prop('disabled', true);
 				$.ajax({
 					type: "GET",
 					cache: false,
-					url: "/demo_activity_3",
-					data: {},
+					url: "/demo_activity",
+					data: {activity_id : 3},
 					success: function(result) {
 						syncImageFunction(result, true).then(function(rslt){
 							setTimeout(function(){
@@ -299,7 +316,6 @@
                 	time += 1700;
                 });
                 return dfrd1.promise();
-                
 			}
 			
 			function getRandomIndex(lngth) {

@@ -6,7 +6,7 @@
                   <p>Working Memory</p>
                 </div>
                 <div class="col-sm-6 text-right">
-                  <p>Design by <a href="#" class="external">Bootstrapious</a></p>
+                   <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a>
                 </div>
               </div>
             </div>
