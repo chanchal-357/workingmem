@@ -10,7 +10,7 @@ public interface ApplicationService {
 
 	List<Application> fetchAllActivities();
 	
-	AppObject findAnimalById(Long id);
+	AppObject findAppObjectById(Long id);
 	
 	Activity findActivityById(Long id);
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.memory.training.wrkmem.model.AppObject;
 
-@Repository("animalRepository")
-public interface AnimalRepository extends CrudRepository<AppObject, Long> {
+@Repository("appObjectRepository")
+public interface AppObjectRepository extends CrudRepository<AppObject, Long> {
 
 }

@@ -10,7 +10,7 @@ import com.memory.training.wrkmem.model.Activity;
 import com.memory.training.wrkmem.model.AppObject;
 import com.memory.training.wrkmem.model.Application;
 import com.memory.training.wrkmem.repository.ActivityRepository;
-import com.memory.training.wrkmem.repository.AnimalRepository;
+import com.memory.training.wrkmem.repository.AppObjectRepository;
 import com.memory.training.wrkmem.repository.ApplicationRepository;
 
 @Service("applicationService")
@@ -20,7 +20,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 	ApplicationRepository applicationRepository;
 	
 	@Autowired
-	AnimalRepository animalRepository;
+	AppObjectRepository appObjectRepository;
 	
 	@Autowired
 	ActivityRepository activityRepository;
@@ -34,8 +34,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public AppObject findAnimalById(Long id) {
-		return animalRepository.findById(id).get();
+	public AppObject findAppObjectById(Long id) {
+		return appObjectRepository.findById(id).get();
 	}
 
 	@Override
