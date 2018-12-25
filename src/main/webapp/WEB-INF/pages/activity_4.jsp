@@ -43,7 +43,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
                           <div class="col-sm-9">
-							<h1 class="h1 text-large" id="animal_name_h" style="font-size: 7rem;"></h1>                          
+							<h1 class="h1 text-large" id="object_name" style="font-size: 7rem;"></h1>                          
                           </div>
                         </div>
                         <div class="form-group row">       
@@ -91,7 +91,7 @@
 			    		success: function(result) {
 			    			syncAudioFunction(result, true).then(function(rslt){
 			    				setTimeout(function(){
-			    					$("#animal_name_h").html("");
+			    					$("#object_name").html("");
 			    					$('#start').prop('disabled', false);
 			    					$("#start").focus();
 			    				}, 1100*(result.length));
@@ -142,7 +142,7 @@
 								$("#level_round").html(lvl_round);
 								
 								setTimeout(function(){
-									$("#animal_name_h").html("");
+									$("#object_name").html("");
 									$('#start').prop('disabled', false);
 									$("#start").focus();
 									$('#demo').prop('disabled', false);
@@ -168,8 +168,8 @@
 				$.each(result, function(k, v) {
 					progress = is_demo ? 0 : v.levelCompletion;
 					setTimeout(function(){
-						$("#animal_name_h").html(v.animal.name_th);
-						var url = audioPrefix + v.animal.audio_title;
+						$("#object_name").html(v.appObject.name_th);
+						var url = audioPrefix + v.appObject.audio_title;
 						var audio = document.createElement("audio");
 						audio.src = url;
 						audio.addEventListener("canplaythrough", function () {

@@ -6,14 +6,14 @@
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Activity 2</h2>
+              <h2 class="no-margin-bottom">Activity 5</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="index">Home</a></li>
-              <li class="breadcrumb-item active">Activity 2</li>
+              <li class="breadcrumb-item active">Activity 5</li>
             </ul>
           </div>
           <!-- Forms Section-->
@@ -30,7 +30,7 @@
                 <div class="col-lg-10">
                   <div class="card">
                     <div class="card-header d-flex align-items-center">
-                      <h3 class="h4">Object Name</h3>
+                      <h3 class="h4">Miscellaneous</h3>
                     </div>
                     
                     <div class="progress">
@@ -43,7 +43,25 @@
                         <div class="form-group row">
                           <label class="col-sm-3 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
                           <div class="col-sm-9">
-							<h1 class="h1 text-large" id="object_name" style="font-size: 7rem;"></h1>                          
+							<h1 class="h1 text-large" id="object_name" style="font-size: 7rem;"></h1>  
+							
+							<!-- Display Image Start -->
+							 <div class="col-lg-4" id="img_div">
+			                   <div class="client card">
+			                    <div class="card-body text-center">
+				                  <div class="flip-container">
+								    <div class="flipper">
+								        <div class="front artist-1">
+								        </div>
+								        <div class="back backImg" id="bckImg">
+								        </div>
+								    </div>
+									</div>
+								</div>
+							  </div>
+			                </div>
+                            <!-- Display Image End -->
+                                    
                           </div>
                         </div>
                         <div class="form-group row">       
@@ -81,13 +99,14 @@
 				$("#demo").on('click', loadDemo);
 				
 				var audioPrefix = "resources/audio/";
+				var imagePrefix = "resources/image/";
 				
 			    function loadDemo() {
 			    	$('#start').prop('disabled', true);
 			    	$.ajax({
 			    		type: "GET",
 			    		url: "/demo_activity",
-			    		data: {activity_id : 2},
+			    		data: {activity_id : 5},
 			    		success: function(result) {
 			    			syncAudioFunction(result, true).then(function(rslt){
 			    				setTimeout(function(){
@@ -131,8 +150,9 @@
 						type: "GET",
 						cache: false,
 						url: "/start_activity",
-						data: {activity_id : 2, app_level : apl_level, level_round : lvl_round },
+						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
+							
 							syncAudioFunction(result, false).then(function(rslt){
 								var arr = rslt.split("|");
 								apl_level = arr[0];
@@ -170,20 +190,74 @@
 					setTimeout(function(){
 						$("#object_name").html(v.appObject.name_th);
 						var url = audioPrefix + v.appObject.audio_title;
-						var audio = document.createElement("audio");
-						audio.src = url;
-						audio.addEventListener("canplaythrough", function () {
-							audio.play();
+						$("#progressbar").width(progress+"%");
+						playAudio(url).then(function(rslt){
 							setTimeout(function(){
-								$("#progressbar").width(progress+"%");
-								audio.pause();
-							},
-							1200);
-						}, false);
+								$("#object_name").html("");
+								$('#start').prop('disabled', false);
+								$("#start").focus();
+							}, 1100);
+						},
+						function(err){
+						  console.log('This is error message.');
+						});
 						dfrd1.resolve(v.activity_level+"|"+v.level_round);
 					}, time);
 					time += 1200;
 				});
+				return dfrd1.promise();
+			}
+			
+			function syncImageFunction(result, isDemo) {
+				var imgPrefix = "resources/image/";
+				var dfrd1= $.Deferred();
+            	var time = 700;
+            	var progress = 0;
+                $.each(result, function(k, v) {
+                	progress = isDemo ? 0 : v.levelCompletion;
+                	setTimeout(function(){
+                		var imgUrl = imgPrefix + v.appObject.image_title;
+                		$("#progressbar").width(progress+"%");
+                		displayImage(imgUrl).then(function(rslt){
+							setTimeout(function(){
+							     $("#bckImg").css('background-image', 'none');
+							     $("#bckImg").css('display', 'none');  // #img_div
+							}, 1100);
+						},
+						function(err){
+						  console.log('This is error message.');
+						});
+                		dfrd1.resolve(v.activity_level+"|"+v.level_round);
+        			}, time);
+                	time += 1700;
+                });
+                return dfrd1.promise();
+			}
+			
+			function displayImage(imgUrl) {
+				var dfrd1= $.Deferred();
+				var time = 1300;
+				setTimeout(function(){
+					$("#bckImg").css("background-image", "url("+imgUrl+")");
+					$("#bckImg").css('display', 'block'); // #img_div
+    				dfrd1.resolve(true);
+    			}, time);
+				return dfrd1.promise();
+			}
+			
+			function playAudio(audioUrl) {
+				var dfrd1= $.Deferred();
+				var time = 1200;
+				var audio = document.createElement("audio");
+				audio.src = audioUrl;
+				audio.addEventListener("canplaythrough", function () {
+					audio.play();
+					setTimeout(function(){
+						audio.pause();
+						dfrd1.resolve(true);
+					},
+					time);
+				}, false);
 				return dfrd1.promise();
 			}
 			

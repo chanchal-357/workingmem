@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.memory.training.wrkmem.model.Activity;
-import com.memory.training.wrkmem.model.Animal;
+import com.memory.training.wrkmem.model.AppObject;
 import com.memory.training.wrkmem.model.Application;
 import com.memory.training.wrkmem.repository.ActivityRepository;
 import com.memory.training.wrkmem.repository.AnimalRepository;
@@ -34,7 +34,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public Animal findAnimalById(Long id) {
+	public AppObject findAnimalById(Long id) {
 		return animalRepository.findById(id).get();
 	}
 

@@ -25,8 +25,8 @@ public class Application {
 	private Activity activity;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+    @JoinColumn(name = "app_obj_id")
+    private AppObject appObject;
 
 	@Column(name = "activity_level")
 	private Integer activity_level;
@@ -36,6 +36,9 @@ public class Application {
 
 	@Column(name = "round_order")
 	private Integer round_order;
+	
+	@Column(name = "is_image") // 1 --> display image, 0 --> play audio for Activity 5 
+	private Boolean is_image;
 
 	@Column(name = "is_example")
 	private Boolean is_example;
@@ -56,12 +59,12 @@ public class Application {
 		this.activity = activity;
 	}
 	
-	public Animal getAnimal() {
-		return animal;
+	public AppObject getAppObject() {
+		return appObject;
 	}
 	
-	public void setAnimal(Animal animal) {
-		this.animal = animal;
+	public void setAppObject(AppObject appObject) {
+		this.appObject = appObject;
 	}
 
 	public Integer getActivity_level() {
@@ -86,6 +89,14 @@ public class Application {
 	
 	public void setRound_order(Integer round_order) {
 		this.round_order = round_order;
+	}
+	
+	public Boolean getIs_image() {
+		return is_image;
+	}
+	
+	public void setIs_image(Boolean is_image) {
+		this.is_image = is_image;
 	}
 
 	public Boolean getIs_example() {

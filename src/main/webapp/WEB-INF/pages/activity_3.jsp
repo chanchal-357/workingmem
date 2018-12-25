@@ -299,7 +299,7 @@
                 $.each(result, function(k, v) {
                 	progress = isDemo ? 0 : v.levelCompletion;
                 	setTimeout(function(){
-                		var imgUrl = imgPrefix + v.animal.image_title;
+                		var imgUrl = imgPrefix + v.appObject.image_title;
                 		$("#progressbar").width(progress+"%");
 	                	var rndId = "#bckImg"+(isDemo ? rndArr[k] : v.round_order);
 	                	//console.log("Random Id: " + rndId + ", Image url: " + imgUrl);
