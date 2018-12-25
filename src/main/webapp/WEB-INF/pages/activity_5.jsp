@@ -46,20 +46,16 @@
 							<h1 class="h1 text-large" id="object_name" style="font-size: 7rem;"></h1>  
 							
 							<!-- Display Image Start -->
-							 <div class="col-lg-4" id="img_div">
-			                   <div class="client card">
+			                   <div class="client card" id="img_div" style="display:none">
 			                    <div class="card-body text-center">
 				                  <div class="flip-container">
 								    <div class="flipper">
-								        <div class="front artist-1">
-								        </div>
-								        <div class="back backImg" id="bckImg">
+								        <div class="front artist-1"  id="bckImg">
 								        </div>
 								    </div>
-									</div>
+								  </div>
 								</div>
 							  </div>
-			                </div>
                             <!-- Display Image End -->
                                     
                           </div>
@@ -98,9 +94,6 @@
 				
 				$("#demo").on('click', loadDemo);
 				
-				var audioPrefix = "resources/audio/";
-				var imagePrefix = "resources/image/";
-				
 			    function loadDemo() {
 			    	$('#start').prop('disabled', true);
 			    	$.ajax({
@@ -108,9 +101,8 @@
 			    		url: "/demo_activity",
 			    		data: {activity_id : 5},
 			    		success: function(result) {
-			    			syncAudioFunction(result, true).then(function(rslt){
+			    			syncActivityFunction(result, true).then(function(rslt){
 			    				setTimeout(function(){
-			    					$("#object_name").html("");
 			    					$('#start').prop('disabled', false);
 			    					$("#start").focus();
 			    				}, 1100*(result.length));
@@ -152,8 +144,7 @@
 						url: "/start_activity",
 						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
-							
-							syncAudioFunction(result, false).then(function(rslt){
+							syncActivityFunction(result, false).then(function(rslt){
 								var arr = rslt.split("|");
 								apl_level = arr[0];
 								lvl_round = arr[1];
@@ -162,12 +153,10 @@
 								$("#level_round").html(lvl_round);
 								
 								setTimeout(function(){
-									$("#object_name").html("");
 									$('#start').prop('disabled', false);
 									$("#start").focus();
 									$('#demo').prop('disabled', false);
-								}, 1100*(result.length));
-								
+								}, 1000*(result.length));
 							},
 							function(err){
 							  console.log('This is error message. ' + err);
@@ -180,74 +169,59 @@
 				}
 			});
 			
-			function syncAudioFunction(result, is_demo) {
-				var audioPrefix = "resources/audio/";
-				var dfrd1= $.Deferred();
-				var time = 1000;
+			function syncActivityFunction(result, is_demo) {
+				var dfrd1 = $.Deferred();
+				var time = 100;
 				var progress = 0;
 				$.each(result, function(k, v) {
 					progress = is_demo ? 0 : v.levelCompletion;
 					setTimeout(function(){
-						$("#object_name").html(v.appObject.name_th);
-						var url = audioPrefix + v.appObject.audio_title;
 						$("#progressbar").width(progress+"%");
-						playAudio(url).then(function(rslt){
-							setTimeout(function(){
-								$("#object_name").html("");
-								$('#start').prop('disabled', false);
-								$("#start").focus();
-							}, 1100);
-						},
-						function(err){
-						  console.log('This is error message.');
-						});
+						if(v.is_image) {
+							var imgUrl = "resources/image/" + v.appObject.image_title;
+	                		displayImage(imgUrl, 1000).then(function(rslt){
+								setTimeout(function(){
+								     $("#bckImg").css('background-image', 'none');
+								     $("#bckImg").css('display', 'none');
+								     $("#img_div").css('display', 'none');
+								}, 1000);
+							},
+							function(err){
+							  console.log('This is error message.'+err);
+							});
+						}
+						else {
+							$("#object_name").html(v.appObject.name_th);
+							var audioUrl = "resources/audio/" + v.appObject.audio_title;
+							playAudio(audioUrl, 1000).then(function(rslt){
+								setTimeout(function(){
+									$("#object_name").html("");
+								}, 1000);
+							},
+							function(err){
+							  console.log('This is error message.'+err);
+							});
+						}
 						dfrd1.resolve(v.activity_level+"|"+v.level_round);
 					}, time);
-					time += 1200;
+					time += 2500;
 				});
 				return dfrd1.promise();
 			}
 			
-			function syncImageFunction(result, isDemo) {
-				var imgPrefix = "resources/image/";
+			function displayImage(imgUrl, time) {
 				var dfrd1= $.Deferred();
-            	var time = 700;
-            	var progress = 0;
-                $.each(result, function(k, v) {
-                	progress = isDemo ? 0 : v.levelCompletion;
-                	setTimeout(function(){
-                		var imgUrl = imgPrefix + v.appObject.image_title;
-                		$("#progressbar").width(progress+"%");
-                		displayImage(imgUrl).then(function(rslt){
-							setTimeout(function(){
-							     $("#bckImg").css('background-image', 'none');
-							     $("#bckImg").css('display', 'none');  // #img_div
-							}, 1100);
-						},
-						function(err){
-						  console.log('This is error message.');
-						});
-                		dfrd1.resolve(v.activity_level+"|"+v.level_round);
-        			}, time);
-                	time += 1700;
-                });
-                return dfrd1.promise();
-			}
-			
-			function displayImage(imgUrl) {
-				var dfrd1= $.Deferred();
-				var time = 1300;
 				setTimeout(function(){
 					$("#bckImg").css("background-image", "url("+imgUrl+")");
-					$("#bckImg").css('display', 'block'); // #img_div
+					$("#img_div").css('display', 'block');
+					$("#bckImg").css('display', 'block');
     				dfrd1.resolve(true);
     			}, time);
 				return dfrd1.promise();
 			}
 			
-			function playAudio(audioUrl) {
+			function playAudio(audioUrl, time) {
 				var dfrd1= $.Deferred();
-				var time = 1200;
 				var audio = document.createElement("audio");
 				audio.src = audioUrl;
 				audio.addEventListener("canplaythrough", function () {

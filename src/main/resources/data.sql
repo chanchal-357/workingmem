@@ -1,3 +1,11 @@
+-- Activity data
+Insert into activity (ID, ACTIVITY_NAME_EN, ACTIVITY_NAME_TH, DESCRIPTION, STATUS) VALUES 
+(1, 'Animal Name', 'ชื่อสัตว์', 'Memorize Animal Names', 1), 
+(2, 'Object Name', 'ชื่อออบเจ็กต์', 'Memorize Object Names', 1),  
+(3, 'Image Position', 'ตำแหน่งรูปภาพ', 'Memorize Image Positions', 1),
+(4, 'Alphabet', 'ตัวอักษร', 'Memorize Alphabet Positions', 1),
+(5, 'Miscellaneous', 'เบ็ดเตล็ด', 'Memorize Image & Audio Sequence', 1);
+
 -- Activity 1 Application Object data
 INSERT INTO `app_object` (`id`, `name_en`, `name_th`, `audio_title`, `image_title`, `status`) VALUES
 (1, 'Ant', 'มด', 'Ant.m4a', 'Ant.jpg', 1),
@@ -124,11 +132,6 @@ INSERT INTO `app_object` (`id`, `name_en`, `name_th`, `audio_title`, `image_titl
 (114, 'Pot', 'N/A', 'Pot.m4a', 'Pot.jpg', 1),
 (115, 'Sock', 'N/A', 'Sock.m4a', 'Sock.jpg', 1),
 (116, 'Table', 'N/A', 'Table.m4a', 'Table.jpg', 1);
-
--- Activity data
-Insert into activity (ID, ACTIVITY_NAME_EN, ACTIVITY_NAME_TH, DESCRIPTION, STATUS) VALUES (1, 'Animal Name', 'ชื่อสัตว์', 'Memorize Animal Names', 1), 
-(2, 'Object Name', 'ชื่อออบเจ็กต์', 'Memorize Object Names', 1),  (3, 'Image Position', 'ตำแหน่งรูปภาพ', 'Memorize Image Positions', 1),
-(4, 'Alphabet', 'ตำแหน่งรูปภาพ', 'Memorize Alphabet Positions', 1);
 
 -- Activity 1 Application data
 INSERT INTO `application` (`id`, `activity_id`, `app_obj_id`, `activity_level`, `level_round`, `round_order`, `is_image`, `is_example`) VALUES
@@ -827,7 +830,7 @@ INSERT INTO `application` (`id`, `activity_id`, `app_obj_id`, `activity_level`, 
 
 -- Activity 5, Demo Application Data
 INSERT INTO `application` (`id`, `activity_id`, `app_obj_id`, `activity_level`, `level_round`, `round_order`, `is_image`, `is_example`) VALUES
-(647, 5, 101, 1, 1,	1, 1, 1),
+(647, 5, 100, 1, 1,	1, 1, 1),
 (648, 5, 20 , 1, 1,	2, 0, 1);
 
 -- Activity 5, Application Data
