@@ -183,11 +183,11 @@
 						else {
 							var audioUrl = "resources/audio/" + v.appObject.audio_title;
 							var name_th = v.appObject.name_th;
-							playAudio(audioUrl, 500, name_th, blankObjectName);
+							playAudio(audioUrl, 1000, name_th, blankObjectName);
 						}
 						// Activating buttons
 						 if ((result.length == (k + 1))) {
-							 activateBtns(1000 * result.length);
+							 activateBtns(800 * result.length);
 						 }
 						
 					}, time);
@@ -212,12 +212,13 @@
 			}
 
 			function playAudio(audioUrl, time, name_th, callback) {
+				$("#object_name").html(name_th);
 				var audio = document.createElement("audio");
 				audio.src = audioUrl;
 				audio.addEventListener("canplaythrough", function () {
 					audio.play();
 					setTimeout(function(){
-						$("#object_name").html(name_th);
+						
 						console.log("Playing audio having url: " + audioUrl + ", & duration: " + time);
 						audio.pause();
 						if (typeof(callback) == 'function') {
@@ -239,7 +240,7 @@
 			}
 
 			function blankObjectName() {
-				var time = 1000;
+				var time = 500;
 				setTimeout(function(){
 					//console.log("Blank object name & return from play Audio for " + time);
 					$("#object_name").html("");
@@ -251,6 +252,7 @@
 					//console.log("Activating buttons after " + time + " duration!"); 
 					$('#start').prop('disabled', false);
 					$("#start").focus();
+					$('#demo').prop('disabled', false);
 				}, time);
 			}
 			
