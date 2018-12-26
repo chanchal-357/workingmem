@@ -95,6 +95,29 @@
 				
 				$("#demo").on('click', loadDemo);
 				
+			    function loadDemo() {
+			    	$('#start').prop('disabled', true);
+			    	$.ajax({
+			    		type: "GET",
+			    		url: "/demo_activity",
+			    		data: {activity_id : 5},
+			    		success: function(result) {
+			    			syncActivityFunction(result, true).then(function(rslt){
+			    				setTimeout(function(){
+			    					$('#start').prop('disabled', false);
+			    					$("#start").focus();
+			    				}, 1800*(result.length));
+			    			},
+			    			function(err){
+			    			  console.log('This is error message. ' + err);
+			    			});
+			    		},
+			    		error: function(result) {
+			    			alert('error ' + result);
+			    		}
+			    	});
+			    }
+			    
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
 				
@@ -104,34 +127,6 @@
 					$('#demo').prop('disabled', true);
 					loadActivity();
 				});
-				
-				function loadActivity() {
-					$('#start').prop('disabled', true);
-					$.ajax({
-						type: "GET",
-						url: "/start_activity",
-						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
-						success: function(result) {
-							syncActivityFunction(result, false).then(function(rslt){
-								console.log("Return from syncActivity: " + rslt);
-								var arr = rslt.split("|");
-								apl_level = arr[0];
-								lvl_round = arr[1];
-								
-								$("#act_level").html(apl_level);
-								$("#level_round").html(lvl_round);
-								
-							},
-							function(err){
-							  console.log('This is error message. ' + err);
-							});
-						},
-						error: function(result) {
-							alert('error ' + result);
-						}
-					});
-				}
-
 				
 				$("#refreshlevel").on('click', refreshLevel);
 			    
@@ -143,121 +138,105 @@
 					}
 				}
 				
+				function loadActivity() {
+					$.ajax({
+						type: "GET",
+						cache: false,
+						url: "/start_activity",
+						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
+						success: function(result) {
+							syncActivityFunction(result, false).then(function(rslt){
+								var arr = rslt.split("|");
+								apl_level = arr[0];
+								lvl_round = arr[1];
+								
+								$("#act_level").html(apl_level);
+								$("#level_round").html(lvl_round);
+								
+								setTimeout(function(){
+									$('#start').prop('disabled', false);
+									$("#start").focus();
+									$('#demo').prop('disabled', false);
+								}, 1800*(result.length));
+							},
+							function(err){
+							  console.log('This is error message. ' + err);
+							});
+						},
+						error: function(result) {
+							alert('error ' + result);
+						}
+					});
+				}
 				
 			});
 			
-			function loadDemo() {
-				$('#start').prop('disabled', true);
-				$.ajax({
-					type: "GET",
-					url: "/demo_activity",
-					data: {activity_id : 5},
-					success: function(result) {
-						syncActivityFunction(result, true).then(function(rslt){
-							console.log("Return from syncActivity: " + rslt);
-						},
-						function(err){
-						  console.log('This is error message. ' + err);
-						});
-					},
-					error: function(result) {
-						alert('error ' + result);
-					}
-				});
-			}
-			
 			function syncActivityFunction(result, is_demo) {
 				var dfrd1 = $.Deferred();
-				var time = 500;
+				var time = 100;
 				var progress = 0;
 				$.each(result, function(k, v) {
 					progress = is_demo ? 0 : v.levelCompletion;
 					setTimeout(function(){
-						
 						$("#progressbar").width(progress+"%");
-						
 						if(v.is_image) {
 							var imgUrl = "resources/image/" + v.appObject.image_title;
-			        		displayImage(imgUrl, 500, hideImage);
+	                		displayImage(imgUrl, 1000).then(function(rslt){
+								setTimeout(function(){
+								     $("#bckImg").css('background-image', 'none');
+								     $("#bckImg").css('display', 'none');
+								     $("#img_div").css('display', 'none');
+								}, 1200);
+							},
+							function(err){
+							  console.log('This is error message.'+err);
+							});
 						}
 						else {
 							var audioUrl = "resources/audio/" + v.appObject.audio_title;
 							var name_th = v.appObject.name_th;
-							playAudio(audioUrl, 500, name_th, blankObjectName);
+							playAudio(audioUrl, 1000, name_th).then(function(rslt){
+								setTimeout(function(){
+									$("#object_name").html("");
+								}, 0);
+							},
+							function(err){
+							  console.log('This is error message.'+err);
+							});
 						}
-						// Activating buttons
-						 if ((result.length == (k + 1))) {
-							 activateBtns(1000 * result.length);
-						 }
-						
+						dfrd1.resolve(v.activity_level+"|"+v.level_round);
 					}, time);
-					time += 1500;
-					dfrd1.resolve(v.activity_level+"|"+v.level_round);
+					time += 2600;
 				});
 				return dfrd1.promise();
 			}
-
-			function displayImage(imgUrl, time, callback) {
-				
+			
+			function displayImage(imgUrl, time) {
+				var dfrd1= $.Deferred();
 				setTimeout(function(){
-					console.log("Showing image having url: " + imgUrl + ", & duration: " + time);
 					$("#bckImg").css("background-image", "url("+imgUrl+")");
 					$("#img_div").css('display', 'block');
 					$("#bckImg").css('display', 'block');
-					if (typeof(callback) == 'function') {
-				       callback();
-				    }
-				}, time);
-				
+    				dfrd1.resolve(true);
+    			}, time);
+				return dfrd1.promise();
 			}
-
-			function playAudio(audioUrl, time, name_th, callback) {
+			
+			function playAudio(audioUrl, time, name_th) {
+				$("#object_name").html(name_th);
+				var dfrd1= $.Deferred();
 				var audio = document.createElement("audio");
 				audio.src = audioUrl;
 				audio.addEventListener("canplaythrough", function () {
 					audio.play();
 					setTimeout(function(){
-						$("#object_name").html(name_th);
-						console.log("Playing audio having url: " + audioUrl + ", & duration: " + time);
 						audio.pause();
-						if (typeof(callback) == 'function') {
-					       callback();
-					    }
+						dfrd1.resolve(true);
 					},
 					time);
 				}, false);
-			}
-			
-			function hideImage() {
-				var time = 1000;
-				setTimeout(function(){
-					//console.log("Hiding image & return from display Image for" + time);
-					$("#bckImg").css('background-image', 'none');
-				    $("#bckImg").css('display', 'none');
-				    $("#img_div").css('display', 'none');
-				}, time);
+				return dfrd1.promise();
 			}
 
-			function blankObjectName() {
-				var time = 1000;
-				setTimeout(function(){
-					//console.log("Blank object name & return from play Audio for " + time);
-					$("#object_name").html("");
-				}, time);
-			}
 			
-			function activateBtns(time) {
-				setTimeout(function(){
-					//console.log("Activating buttons after " + time + " duration!"); 
-					$('#start').prop('disabled', false);
-					$("#start").focus();
-				}, time);
-			}
-			
-			function timeBreak(time) {
-				setTimeout(function(){
-					console.log("Pausing for: " + time + " duration!");
-				}, time);
-			}
-
 	</script>
