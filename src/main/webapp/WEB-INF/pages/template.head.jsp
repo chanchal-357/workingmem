@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Working Memory</title>
+    <title><spring:message code="title.appName" /></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -35,21 +35,20 @@
       <!-- Main Navbar-->
       <header class="header">
         <nav class="navbar">
-          <!-- Search Box-->
-          <div class="search-box">
-            <button class="dismiss"><i class="icon-close"></i></button>
-            <form id="searchForm" action="#" role="search">
-              <input type="search" placeholder="What are you looking for..." class="form-control">
-            </form>
-          </div>
           <div class="container-fluid">
             <div class="navbar-holder d-flex align-items-center justify-content-between">
               <!-- Navbar Header-->
               <div class="navbar-header">
-                <!-- Navbar Brand --><a href="${pageContext.request.contextPath}/index" class="navbar-brand d-none d-sm-inline-block">
-                  <div class="brand-text d-none d-lg-inline-block"><span>Working Memory </span><strong> Dashboard</strong></div>
-                  <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div></a>
-                <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+                <!-- Navbar Brand -->
+                <a href="${pageContext.request.contextPath}/index" class="navbar-brand d-none d-sm-inline-block">
+                  <div class="brand-text d-none d-lg-inline-block">
+                  	<span><spring:message code="title.appName" /></span>
+                  	<strong> <spring:message code="title.dashboard" /></strong>
+                  </div>
+                  <div class="brand-text d-none d-sm-inline-block d-lg-none">
+                  	<strong>BD</strong>
+                  </div>
+                </a>
               </div>
               <!-- Navbar Menu -->
               <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">

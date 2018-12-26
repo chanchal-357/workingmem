@@ -1,11 +1,12 @@
-  		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+        <%@page contentType="text/html; charset=UTF-8" %>
         <jsp:include page="template.head.jsp" />
+  		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
         
         <div class="content-inner">
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Dashboard</h2>
+              <h2 class="no-margin-bottom"><spring:message code="title.dashboard" /></h2>
             </div>
           </header>
           <!-- Dashboard Counts Section-->
@@ -16,7 +17,7 @@
                 <div class="col-xl-3 col-sm-6">
                   <div class="item d-flex align-items-center">
                     <div class="icon bg-violet"><i class="icon-user"></i></div>
-                    <div class="title"><span>Activity 1<br></span>
+                    <div class="title"><span><spring:message code="title.activity" /> 1<br></span>
                       <div class="progress">
                         <div role="progressbar" style="width: 25%; height: 4px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-violet"></div>
                       </div>
@@ -28,7 +29,7 @@
                 <div class="col-xl-3 col-sm-6">
                   <div class="item d-flex align-items-center">
                     <div class="icon bg-red"><i class="icon-padnote"></i></div>
-                    <div class="title"><span>Activity 2<br></span>
+                    <div class="title"><span><spring:message code="title.activity" /> 2<br></span>
                       <div class="progress">
                         <div role="progressbar" style="width: 70%; height: 4px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-red"></div>
                       </div>
@@ -40,7 +41,7 @@
                 <div class="col-xl-3 col-sm-6">
                   <div class="item d-flex align-items-center">
                     <div class="icon bg-green"><i class="icon-bill"></i></div>
-                    <div class="title"><span>Activity 3<br></span>
+                    <div class="title"><span><spring:message code="title.activity" /> 3<br></span>
                       <div class="progress">
                         <div role="progressbar" style="width: 40%; height: 4px;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
                       </div>
@@ -52,7 +53,7 @@
                 <div class="col-xl-3 col-sm-6">
                   <div class="item d-flex align-items-center">
                     <div class="icon bg-orange"><i class="icon-check"></i></div>
-                    <div class="title"><span>Activity 4<br></span>
+                    <div class="title"><span><spring:message code="title.activity" /> 4<br></span>
                       <div class="progress">
                         <div role="progressbar" style="width: 50%; height: 4px;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-orange"></div>
                       </div>
