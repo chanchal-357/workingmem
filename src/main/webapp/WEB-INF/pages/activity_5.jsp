@@ -50,7 +50,7 @@
 			                    <div class="card-body text-center">
 				                  <div class="flip-container">
 								    <div class="flipper">
-								        <div class="front artist-1"  id="bckImg">
+								        <div class="front artist-1"  id="bckImg" style="background-size:contain;">
 								        </div>
 								    </div>
 								  </div>
@@ -240,7 +240,7 @@
 			}
 
 			function blankObjectName() {
-				var time = 500;
+				var time = 450;
 				setTimeout(function(){
 					//console.log("Blank object name & return from play Audio for " + time);
 					$("#object_name").html("");
