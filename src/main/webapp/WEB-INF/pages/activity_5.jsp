@@ -1,20 +1,29 @@
 		<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 		<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 		<jsp:include page="template.head.jsp" />
+	
+		<jsp:include page="resetLevelModal.jsp" />
 	
         <div class="content-inner">
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Activity 5</h2>
+              <h2 class="no-margin-bottom"><spring:message code="title.activity" /> 5</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index">Home</a></li>
-              <li class="breadcrumb-item active">Activity 5</li>
+              <li class="breadcrumb-item"><a href="index"><spring:message code="menu.home" /></a></li>
+              <li class="breadcrumb-item active"><spring:message code="menu.misc" /></li>
+	          <div class="client ml-auto px-1">
+		         <div class="client-title" style="margin-top:-5px;">
+		         	<a href="#" data-toggle="modal" data-target="#levelModal" id="levelref">Reset Level</a>
+		         </div>
+	          </div>
             </ul>
+            
           </div>
           <!-- Forms Section-->
           <section class="forms no-padding-top"> 
@@ -66,15 +75,6 @@
                             <input type="button" id="start" value="Start" autofocus class="btn btn-primary pull-right">
                           </div>
                         </div>
-                        
-                        <div class="form-group row" style="display:none;">
-                          <label class="col-sm-3 form-control-label">Reset Level</label>
-                          <div class="col-sm-9">
-							<input type="text" class="" id="rst_level" value="" />  
-							<input type="button" id="refreshlevel" value="Reset" class="btn btn-primary pull-right">                        
-                          </div>
-                        </div>
-                        
                       </form>
                     </div>
                   </div>
@@ -83,6 +83,7 @@
               </div>
             </div>
           </section>
+         
          <jsp:include page="template.footer.jsp" />
          <script src="${pageContext.request.contextPath}/resources/js/activity.js" type="text/javascript"></script>
          
@@ -102,6 +103,7 @@
 					$("#start").prop("value", "Next")
 					$('#start').prop('disabled', true);
 					$('#demo').prop('disabled', true);
+					$('#levelref').attr('data-toggle','');
 					loadActivity();
 				});
 				
@@ -113,7 +115,7 @@
 						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
 							syncActivityFunction(result, false).then(function(rslt){
-								console.log("Return from syncActivity: " + rslt);
+								//console.log("Return from syncActivity: " + rslt);
 								var arr = rslt.split("|");
 								apl_level = arr[0];
 								lvl_round = arr[1];
@@ -131,23 +133,40 @@
 						}
 					});
 				}
-
 				
-				$("#refreshlevel").on('click', refreshLevel);
-			    
+				$("#resetlevel").on('click', refreshLevel);
 				function refreshLevel() {
-					var level = $("#rst_level").val();
+					resetModalMsg();
+					var level = $("#acty_level").val();
+					//console.log("Level to set: " + level);
 					if(level != "" && parseInt(level) > 0) {
 						apl_level = level;
 						lvl_round = 0;
+						$("#acty_level").val('');
+						$('#message').addClass('alert-success');
+						$("#message").html('Level refreshed successfully!');
+					}
+					else {
+						$('#message').addClass('alert-danger');
+						$("#message").html('Invalid Level selected!');
 					}
 				}
 				
+				$('#levelModal').on('hidden.bs.modal', function (e) {
+					resetModalMsg();
+				});
 				
 			});
 			
+			function resetModalMsg() {
+				$('#message').removeClass('alert-success');
+				$('#message').removeClass('alert-danger');
+				$("#message").html('');
+			}
+			
 			function loadDemo() {
 				$('#start').prop('disabled', true);
+				$('#levelref').attr('data-toggle','');
 				$.ajax({
 					type: "GET",
 					url: "/demo_activity",
@@ -200,7 +219,7 @@
 			function displayImage(imgUrl, time, callback) {
 				
 				setTimeout(function(){
-					console.log("Showing image having url: " + imgUrl + ", & duration: " + time);
+					//console.log("Showing image having url: " + imgUrl + ", & duration: " + time);
 					$("#bckImg").css("background-image", "url("+imgUrl+")");
 					$("#img_div").css('display', 'block');
 					$("#bckImg").css('display', 'block');
@@ -219,7 +238,7 @@
 					audio.play();
 					setTimeout(function(){
 						
-						console.log("Playing audio having url: " + audioUrl + ", & duration: " + time);
+						//console.log("Playing audio having url: " + audioUrl + ", & duration: " + time);
 						audio.pause();
 						if (typeof(callback) == 'function') {
 					       callback();
@@ -253,6 +272,7 @@
 					$('#start').prop('disabled', false);
 					$("#start").focus();
 					$('#demo').prop('disabled', false);
+					$('#levelref').attr('data-toggle','modal');
 				}, time);
 			}
 			
@@ -263,3 +283,4 @@
 			}
 
 	</script>
+	

@@ -36,32 +36,32 @@ public class ApplicationController {
 	
 	@RequestMapping(value = "/activity_1", method = RequestMethod.GET)
 	public String firstActivity(Model m, HttpServletRequest request) {
-		String pageUrl = "activity_1"; 
-		return processActivityPage(request, m, pageUrl);
+		String pageUrl = "activity_1";
+		return processActivityPage(request, m, pageUrl, 1L);
 	}
 	
 	@RequestMapping(value = "/activity_2", method = RequestMethod.GET)
 	public String secondActivity(Model m, HttpServletRequest request) {
 		String pageUrl = "activity_2"; 
-		return processActivityPage(request, m, pageUrl);
+		return processActivityPage(request, m, pageUrl, 2L);
 	}
 	
 	@RequestMapping(value = "/activity_3", method = RequestMethod.GET)
 	public String thirdActivity(Model m, HttpServletRequest request) {
 		String pageUrl = "activity_3"; 
-		return processActivityPage(request, m, pageUrl);
+		return processActivityPage(request, m, pageUrl, 3L);
 	}
 	
 	@RequestMapping(value = "/activity_4", method = RequestMethod.GET)
 	public String fourthActivity(Model m, HttpServletRequest request) {
 		String pageUrl = "activity_4"; 
-		return processActivityPage(request, m, pageUrl);
+		return processActivityPage(request, m, pageUrl, 4L);
 	}
 	
 	@RequestMapping(value = "/activity_5", method = RequestMethod.GET)
 	public String fifthActivity(Model m, HttpServletRequest request) {
 		String pageUrl = "activity_5"; 
-		return processActivityPage(request, m, pageUrl);
+		return processActivityPage(request, m, pageUrl, 5L);
 	}
 	
 	@ResponseBody
@@ -89,12 +89,18 @@ public class ApplicationController {
 		return lst;
 	}
 	
-	private String processActivityPage(HttpServletRequest request, Model m, String pageUrl) {
+	private String processActivityPage(HttpServletRequest request, Model m, String pageUrl, Long activity_id) {
 		String refresh = request.getParameter("q");
 		Boolean isRefresh = refresh != null && "1".equals(refresh) ? true : false;
 		lst = this.populateAppActivities(isRefresh);
 		System.out.println(gson.toJson(lst));
 		m.addAttribute("mainmenu", pageUrl);
+		List<Long> levels = lst.stream()
+							.map(e -> e.getActivity().getId())
+							.sorted()
+							.distinct()
+							.collect(Collectors.toList());
+		m.addAttribute("levels", levels);
 		return pageUrl;
 	}
 	

@@ -1,5 +1,7 @@
   		<%@page contentType="text/html; charset=UTF-8" %>
+  		<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
         <jsp:include page="template.head.jsp" />
+       
         <style>
         	.card-body {
 			    padding: 0.75rem !important;
@@ -14,19 +16,27 @@
 			}
         </style>
         
+        <jsp:include page="resetLevelModal.jsp" />
+        
         <div class="content-inner">
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Activity 3</h2>
+              <h2 class="no-margin-bottom"><spring:message code="title.activity" /> 3</h2>
             </div>
           </header>
            <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index">Home</a></li>
-              <li class="breadcrumb-item active">Activity 3</li>
+              <li class="breadcrumb-item"><a href="index"><spring:message code="menu.home" /></a></li>
+              <li class="breadcrumb-item active"><spring:message code="menu.image" /></li>
               <label class="col-sm-6 form-control-label">Level <span id="act_level">  </span> Round <span id="level_round">  </span></label>
+           	
+           		<div class="client ml-auto px-1">
+		        	<div class="client-title" style="margin-top:-5px;">
+		         		<a href="#" data-toggle="modal" data-target="#levelModal" id="levelref">Reset Level</a>
+		        	</div>
+	          	</div>
             </ul>
           </div>
            <div class="progress nopadding">
@@ -176,13 +186,6 @@
                   </div>
                 </div>
                 
-                 <div class="form-group row" style="display:none;">
-                 	<label class="col-sm-3 form-control-label">Reset Level</label>
-                    <div class="col-sm-9">
-						<input type="text" class="" id="rst_level" value="" />  
-						<input type="button" id="refreshlevel" value="Reset" class="btn btn-primary pull-right" />                        
-                    </div>
-                 </div>
                  <input type="hidden" id="app_level" value="1" />
                  <input type="hidden" id="lvl_round" value="0" />    
                    
@@ -210,15 +213,27 @@
 					loadActivity();
 				});
 				
-				$("#refreshlevel").on('click', refreshLevel);
-			    
+				$("#resetlevel").on('click', refreshLevel);
 				function refreshLevel() {
-					var level = $("#rst_level").val();
+					resetModalMsg();
+					var level = $("#acty_level").val();
+					//console.log("Level to set: " + level);
 					if(level != "" && parseInt(level) > 0) {
 						apl_level = level;
 						lvl_round = 0;
+						$("#acty_level").val('');
+						$('#message').addClass('alert-success');
+						$("#message").html('Level refreshed successfully!');
+					}
+					else {
+						$('#message').addClass('alert-danger');
+						$("#message").html('Invalid Level selected!');
 					}
 				}
+				
+				$('#levelModal').on('hidden.bs.modal', function (e) {
+					resetModalMsg();
+				});
 				
 				function loadActivity() {
 					$.ajax({
@@ -240,6 +255,7 @@
 									$('#start').prop('disabled', false);
 									$("#start").focus();
 									$('#demo').prop('disabled', false);
+									$('#levelref').attr('data-toggle','modal');
 								}, 2200*(result.length));
 								
 							},
@@ -255,8 +271,15 @@
 				
 			});
 			
+			function resetModalMsg() {
+				$('#message').removeClass('alert-success');
+				$('#message').removeClass('alert-danger');
+				$("#message").html('');
+			}
+			
 			function loadDemoActivity() {
 				$('#start').prop('disabled', true);
+				$('#levelref').attr('data-toggle','');
 				$.ajax({
 					type: "GET",
 					cache: false,
@@ -267,6 +290,7 @@
 							setTimeout(function(){
 								$('#start').prop('disabled', false);
 								$("#start").focus();
+								$('#levelref').attr('data-toggle','modal');
 							}, 2200*(result.length));
 						},
 						function(err){
