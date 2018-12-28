@@ -64,6 +64,12 @@ public class ApplicationController {
 		return processActivityPage(request, m, pageUrl, 5L);
 	}
 	
+	@RequestMapping(value = "/tstSoundMangr2", method = RequestMethod.GET)
+	public String testActivity(Model m, HttpServletRequest request) {
+		String pageUrl = "tstSoundMangr2"; 
+		return processActivityPage(request, m, pageUrl, 5L);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/demo_activity", method = RequestMethod.GET) 
 	public List<Application> loadDemoActivity(HttpServletRequest request) {
