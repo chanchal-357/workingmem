@@ -85,7 +85,7 @@
           </section>
          
          <jsp:include page="template.footer.jsp" />
-         <script src="${pageContext.request.contextPath}/resources/js/activity.js" type="text/javascript"></script>
+        <%--  <script src="${pageContext.request.contextPath}/resources/js/activity.js" type="text/javascript"></script> --%>
          
          <script type="text/javascript">
 			$(document).ready(function() {  
