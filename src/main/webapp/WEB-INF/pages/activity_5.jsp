@@ -235,7 +235,10 @@
 				var audio = document.createElement("audio");
 				audio.src = audioUrl;
 				audio.addEventListener("canplaythrough", function () {
-					audio.play();
+					const playPromise = audio.play();
+					if (playPromise !== null){
+					    playPromise.catch(() => { audio.play(); })
+					}
 					setTimeout(function(){
 						
 						//console.log("Playing audio having url: " + audioUrl + ", & duration: " + time);
