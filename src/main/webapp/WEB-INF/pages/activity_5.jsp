@@ -108,14 +108,12 @@
 				});
 				
 				function loadActivity() {
-					$('#start').prop('disabled', true);
 					$.ajax({
 						type: "GET",
 						url: "/start_activity",
 						data: {activity_id : 5, app_level : apl_level, level_round : lvl_round },
 						success: function(result) {
 							syncActivityFunction(result, false).then(function(rslt){
-								//console.log("Return from syncActivity: " + rslt);
 								var arr = rslt.split("|");
 								apl_level = arr[0];
 								lvl_round = arr[1];
