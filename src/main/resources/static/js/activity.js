@@ -111,3 +111,16 @@ function timeBreak(time) {
 		console.log("Pausing for: " + time + " duration!");
 	}, time);
 }
+
+/*
+ function handlerName(event) {
+  alert(event.data.msg);
+}
+
+$(document).ready(function(){
+  $("p").on("click", {msg: "You just clicked me!"}, handlerName);
+  var param_obj = {data : {msg: "Hello"}}; 
+  handlerName(param_obj);
+});
+
+ */
