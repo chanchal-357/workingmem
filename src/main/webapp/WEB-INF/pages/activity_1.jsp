@@ -74,43 +74,21 @@
             </div>
           </section>
          <jsp:include page="template.footer.jsp" />
+         <script src="${pageContext.request.contextPath}/resources/js/activity.js" type="text/javascript"></script>
+          
          <script type="text/javascript">
 			$(document).ready(function() {  
 				
 				setTimeout(function(){
-					loadDemo();
+					loadDemo("1");
 				}, 1000);
 				
-				$("#demo").on('click', loadDemo);
+				/* $("#demo").on('click', function() {
+					loadDemo("1");
+			    }); */
+			    // passing argument to event handler function 
+				$("#demo").on('click', loadDemo.bind(null, "1")); 
 				
-				var audioPrefix="resources/audio/";
-				
-			    function loadDemo() {
-			    	$('#start').prop('disabled', true);
-			    	$('#levelref').attr('data-toggle','');
-			    	$.ajax({
-			    		type: "GET",
-			    		url: "/demo_activity",
-			    		data: {activity_id : 1},
-			    		success: function(result) {
-			    			syncAudioFunction(result, true).then(function(rslt){
-			    				setTimeout(function(){
-			    					$("#object_name").html("");
-			    					$('#start').prop('disabled', false);
-			    					$("#start").focus();
-			    					$('#levelref').attr('data-toggle','modal');
-			    				}, 1100*(result.length));
-			    			},
-			    			function(err){
-			    			  console.log('This is error message. ' + err);
-			    			});
-			    		},
-			    		error: function(result) {
-			    			alert('error ' + result);
-			    		}
-			    	});
-			    }
-			    
 				var apl_level = $("#app_level").val();
 				var lvl_round = $("#lvl_round").val();
 				
@@ -120,28 +98,6 @@
 					$('#demo').prop('disabled', true);
 					$('#levelref').attr('data-toggle','');
 					loadActivity();
-				});
-				
-				$("#resetlevel").on('click', refreshLevel);
-				function refreshLevel() {
-					resetModalMsg();
-					var level = $("#acty_level").val();
-					//console.log("Level to set: " + level);
-					if(level != "" && parseInt(level) > 0) {
-						apl_level = level;
-						lvl_round = 0;
-						$("#acty_level").val('');
-						$('#message').addClass('alert-success');
-						$("#message").html('Level refreshed successfully!');
-					}
-					else {
-						$('#message').addClass('alert-danger');
-						$("#message").html('Invalid Level selected!');
-					}
-				}
-				
-				$('#levelModal').on('hidden.bs.modal', function (e) {
-					resetModalMsg();
 				});
 				
 				function loadActivity() {
@@ -169,21 +125,37 @@
 								
 							},
 							function(err){
-							  console.log('This is error message.');
+								console.log('This is error message. ' + err);
 							});
 						},
 						error: function(result) {
-							alert('error');
+							alert('error ' + result);
 						}
 					});
 				}
+				
+				$("#resetlevel").on('click', refreshLevel);
+				function refreshLevel() {
+					resetModalMsg();
+					var level = $("#acty_level").val();
+					if(level != "" && parseInt(level) > 0) {
+						apl_level = level;
+						lvl_round = 0;
+						$("#acty_level").val('');
+						$('#message').addClass('alert-success');
+						$("#message").html('Level refreshed successfully!');
+					}
+					else {
+						$('#message').addClass('alert-danger');
+						$("#message").html('Invalid Level selected!');
+					}
+				}
+				
+				$('#levelModal').on('hidden.bs.modal', function (e) {
+					resetModalMsg();
+				});
+				
 			});
-			
-			function resetModalMsg() {
-				$('#message').removeClass('alert-success');
-				$('#message').removeClass('alert-danger');
-				$("#message").html('');
-			}
 			
 			function syncAudioFunction(result, is_demo) {
 				var audioPrefix = "resources/audio/";
