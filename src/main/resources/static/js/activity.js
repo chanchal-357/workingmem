@@ -1,7 +1,16 @@
+var apl_level = undefined;
+var lvl_round = undefined;
+			
 $(function(){
-	/*setTimeout(function(){
-		alert("hi, chan!");
-	}, 1000);*/
+	
+	apl_level = $("#app_level").val();
+	lvl_round = $("#lvl_round").val();
+	
+	$("#resetlevel").on('click', refreshLevel);
+	
+	$('#levelModal').on('hidden.bs.modal', function (e) {
+		resetModalMsg();
+	});
 });
 
 function loadDemo(actv_id) {
@@ -17,6 +26,31 @@ function loadDemo(actv_id) {
 			},
 			function(err){
 			  console.log('This is error message. ' + err);
+			});
+		},
+		error: function(result) {
+			alert('error ' + result);
+		}
+	});
+}
+
+function loadActivity(actv_id) {
+	$.ajax({
+		type: "GET",
+		cache: false,
+		url: "/start_activity",
+		data: {activity_id : actv_id, app_level : apl_level, level_round : lvl_round },
+		success: function(result) {
+			syncActivityFunction(result, false).then(function(rslt){
+				var arr = rslt.split("|");
+				apl_level = arr[0];
+				lvl_round = arr[1];
+				
+				$("#act_level").html(apl_level);
+				$("#level_round").html(lvl_round);
+			},
+			function(err){
+				console.log('This is error message. ' + err);
 			});
 		},
 		error: function(result) {
@@ -46,6 +80,22 @@ function syncActivityFunction(result, is_demo) {
 		dfrd1.resolve(v.activity_level+"|"+v.level_round);
 	});
 	return dfrd1.promise();
+}
+
+function refreshLevel() {
+	resetModalMsg();
+	var level = $("#acty_level").val();
+	if(level != "" && parseInt(level) > 0) {
+		apl_level = level;
+		lvl_round = 0;
+		$("#acty_level").val('');
+		$('#message').addClass('alert-success');
+		$("#message").html('Level refreshed successfully!');
+	}
+	else {
+		$('#message').addClass('alert-danger');
+		$("#message").html('Invalid Level selected!');
+	}
 }
 
 function resetModalMsg() {
@@ -104,6 +154,13 @@ function activateBtns(time) {
 		$('#demo').prop('disabled', false);
 		$('#levelref').attr('data-toggle','modal');
 	}, time);
+}
+
+function deactivateBtns() {
+	$("#start").prop("value", "Next")
+	$('#start').prop('disabled', true);
+	$('#demo').prop('disabled', true);
+	$('#levelref').attr('data-toggle','');
 }
 
 function timeBreak(time) {

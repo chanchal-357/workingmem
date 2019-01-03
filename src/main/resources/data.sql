@@ -304,7 +304,7 @@ INSERT INTO `application` (`id`, `activity_id`, `app_obj_id`, `activity_level`, 
 
 -- Activity 1 demo data
 INSERT INTO application (id, activity_id, app_obj_id, activity_level, level_round, round_order, is_image, is_example) VALUES 
-(167, 1, 13, 1,	1, 1, 0, 1), (168, 1, 3, 1, 1, 2, 0, 1);
+(167, 1, 7, 1,	1, 1, 0, 1), (168, 1, 20, 1, 1, 2, 0, 1);
 
 -- Activity 2 Application data
 INSERT INTO `application` (`id`, `activity_id`, `app_obj_id`, `activity_level`, `level_round`, `round_order`, `is_image`, `is_example`) VALUES

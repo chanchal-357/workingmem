@@ -77,6 +77,7 @@
          <script src="${pageContext.request.contextPath}/resources/js/activity.js" type="text/javascript"></script>
           
          <script type="text/javascript">
+         
 			$(document).ready(function() {  
 				
 				setTimeout(function(){
@@ -89,99 +90,11 @@
 			    // passing argument to event handler function 
 				$("#demo").on('click', loadDemo.bind(null, "1")); 
 				
-				var apl_level = $("#app_level").val();
-				var lvl_round = $("#lvl_round").val();
-				
 				$("#start").click(function(e) {
-					$("#start").prop("value", "Next")
-					$('#start').prop('disabled', true);
-					$('#demo').prop('disabled', true);
-					$('#levelref').attr('data-toggle','');
-					loadActivity();
-				});
-				
-				function loadActivity() {
-					$.ajax({
-						type: "GET",
-						cache: false,
-						url: "/start_activity",
-						data: {activity_id : 1, app_level : apl_level, level_round : lvl_round },
-						success: function(result) {
-							syncAudioFunction(result, false).then(function(rslt){
-								var arr = rslt.split("|");
-								apl_level = arr[0];
-								lvl_round = arr[1];
-								
-								$("#act_level").html(apl_level);
-								$("#level_round").html(lvl_round);
-								
-								setTimeout(function(){
-									$("#object_name").html("");
-									$('#start').prop('disabled', false);
-									$("#start").focus();
-									$('#demo').prop('disabled', false);
-									$('#levelref').attr('data-toggle','modal');
-								}, 1100*(result.length));
-								
-							},
-							function(err){
-								console.log('This is error message. ' + err);
-							});
-						},
-						error: function(result) {
-							alert('error ' + result);
-						}
-					});
-				}
-				
-				$("#resetlevel").on('click', refreshLevel);
-				function refreshLevel() {
-					resetModalMsg();
-					var level = $("#acty_level").val();
-					if(level != "" && parseInt(level) > 0) {
-						apl_level = level;
-						lvl_round = 0;
-						$("#acty_level").val('');
-						$('#message').addClass('alert-success');
-						$("#message").html('Level refreshed successfully!');
-					}
-					else {
-						$('#message').addClass('alert-danger');
-						$("#message").html('Invalid Level selected!');
-					}
-				}
-				
-				$('#levelModal').on('hidden.bs.modal', function (e) {
-					resetModalMsg();
+					deactivateBtns();
+					loadActivity("1");
 				});
 				
 			});
-			
-			function syncAudioFunction(result, is_demo) {
-				var audioPrefix = "resources/audio/";
-				var dfrd1= $.Deferred();
-				var time = 1000;
-				var progress = 0;
-				$.each(result, function(k, v) {
-					progress = is_demo ? 0 : v.levelCompletion;
-					setTimeout(function(){
-						$("#object_name").html(v.appObject.name_th);
-						var url = audioPrefix + v.appObject.audio_title;
-						var audio = document.createElement("audio");
-						audio.src = url;
-						audio.addEventListener("canplaythrough", function () {
-							audio.play();
-							setTimeout(function(){
-								$("#progressbar").width(progress+"%");
-								audio.pause();
-							},
-							1200);
-						}, false);
-						dfrd1.resolve(v.activity_level+"|"+v.level_round);
-					}, time);
-					time += 1200;
-				});
-				return dfrd1.promise();
-			}
 			
 	</script>
