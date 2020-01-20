@@ -12,7 +12,6 @@
 	<artifactId>wrkmem</artifactId>
 	<version>1</version>
 	<packaging>war</packaging>
-	<!-- <packaging>war</packaging> -->
 	<name>wrkmem</name>
 	<description>Working Memory Training Program</description>
 
